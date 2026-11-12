@@ -4,6 +4,8 @@ import { Agenda } from '@/components/agenda'
 import { getEvents, isLocal } from '@/lib/db'
 import { categories } from '@/lib/catalog'
 
+export const runtime = 'nodejs'
+
 type Search = Promise<{ q?: string; categoria?: string; tipo?: string; pagina?: string }>
 const pageSize = 9
 
