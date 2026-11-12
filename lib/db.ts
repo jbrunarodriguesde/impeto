@@ -1,9 +1,10 @@
 import 'server-only'
-import { mkdir, readFile } from 'node:fs/promises'
+import { readFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { PGlite } from '@electric-sql/pglite'
 import { Pool } from 'pg'
 import { demoEvents, type Event } from './catalog'
+import { ensureDataDir } from './data-dir'
 
 type Query = <T = Record<string, unknown>>(sql: string, params?: unknown[]) => Promise<T[]>
 type Database = { query: Query; transaction: <T>(fn: (query: Query) => Promise<T>) => Promise<T> }
@@ -13,6 +14,7 @@ export const isLocal = !persistentUrl
 const state = globalThis as typeof globalThis & { impetoDb?: Promise<Database> }
 export const db = () => state.impetoDb ??= connect().catch(error => {
   delete state.impetoDb
+  console.error('[Ímpeto] Falha ao inicializar o banco de dados:', error)
   throw error
 })
 
@@ -38,8 +40,7 @@ async function connect(): Promise<Database> {
     }
   }
 
-  const data = process.env.LOCAL_DATABASE_DIR || join(process.cwd(), '.data')
-  await mkdir(data, { recursive: true })
+  const data = await ensureDataDir()
   const local = new PGlite(data)
   await local.exec(await readFile(join(process.cwd(), 'db/schema.sql'), 'utf8'))
   const result: Database = {
@@ -68,7 +69,8 @@ const seats = "greatest(0, e.capacity - (select count(*)::int from impeto.regist
 export async function getEvents({ query, category, type, page, pageSize }: {
   query: string; category: string; type: string; page: number; pageSize: number
 }) {
-  const database = await db()
+  try {
+    const database = await db()
   const term = query.toLowerCase().normalize('NFD').replace(/\p{Mark}/gu, '').replace(/[\\%_]/g, char => '\\' + char)
   return database.query<Event>(`select ${columns}, ${seats} from impeto.events e
     where e.published and e.starts_at > now()
@@ -77,6 +79,10 @@ export async function getEvents({ query, category, type, page, pageSize }: {
       and ($2 = '' or e.category = $2)
       and ($3 = '' or ($3 = 'gratis' and e.price_cents=0) or ($3='pago' and e.price_cents>0))
     order by e.featured desc, e.starts_at, e.id limit $4 offset $5`, [term, category, type, pageSize + 1, (page - 1) * pageSize])
+  } catch (error) {
+    console.error('[Ímpeto] Não foi possível carregar a lista de eventos:', error)
+    return [] as Event[]
+  }
 }
 
 export async function getEvent(slug: string) {
