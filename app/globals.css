@@ -239,45 +239,106 @@ body:has(.hero-stage) .masthead { position: absolute; inset: 0 0 auto; }
   .detail-grid, .account-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 680px) {
-  .masthead-inner { min-height: 95px; grid-template-columns: 1fr 1fr; gap: 0 12px; padding-block: 9px 0; }
-  .brand { font-size: 2.25rem; }
+  :root { --gutter: clamp(18px, 5vw, 28px); }
+  body { overflow-x: clip; }
+
+  /* Cabeçalho em duas linhas, sem comprimir os links em telas estreitas. */
+  .masthead-inner {
+    min-height: 104px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0 12px;
+    padding-block: 10px 4px;
+  }
+  .brand { font-size: clamp(2.05rem, 9vw, 2.5rem); }
   .brand svg { width: 25px; height: 25px; }
-  .account-link { grid-column: 2; grid-row: 1; min-height: 37px; }
+  .account-link { grid-column: 2; grid-row: 1; min-height: 44px; padding-inline: 12px; }
   .account-arrow { display: none; }
-  .masthead nav { grid-column: 1/-1; grid-row: 2; gap: 20px; font-size: .75rem; }
-  .masthead nav a { min-height: 44px; display: flex; align-items: center; padding-block: 0; }
-  .hero-stage { height: 100svh; min-height: 685px; padding-top: 95px; }
-  #filme[data-motion=on] .film-scene { height: 145svh; min-height: 720px; }
+  .masthead nav {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    justify-content: space-between;
+    width: 100%;
+    min-width: 0;
+    gap: 10px;
+    font-size: clamp(.73rem, 3.1vw, .86rem);
+  }
+  .masthead nav a { display: inline-flex; align-items: center; min-height: 44px; padding-block: 0; white-space: nowrap; }
+
+  /* A capa ocupa a altura útil do aparelho, sem a antiga altura mínima fixa. */
+  .hero-stage { height: 100svh; min-height: 0; padding-top: 104px; }
+  #filme[data-motion=on] .film-scene { height: 145svh; min-height: 0; }
   #filme[data-motion=on] .paths-scene { height: 185svh; }
-  .hero-frame img { object-position: center 30%; }
+  .hero-cover img { object-position: center 30%; }
   .frame-cadarco, .frame-posicao { object-position: 74% center; }
   .frame-largada { object-position: 67% center; }
-  .hero-shade { background: linear-gradient(0deg,#1c121beb 0%,#1c121bc9 24%,#2319232c 69%,#2319231c); }
-  .hero-body { align-items: end; }
-  .hero-copy { padding-block: 22px 25px; }
-  .hero-copy h1 { font-size: clamp(3.45rem,11.5vw,5.5rem); }
-  .hero-kicker { margin-bottom: 13px; font-size: .57rem; gap: 8px; }
-  .hero-kicker span { width: 17px; }
-  .hero-copy p { max-width: 280px; margin-top: 13px; }
-  .hero-cta { margin-top: 17px; min-height: 45px; }
+  .hero-shade { background: linear-gradient(0deg, #1c121be8 0%, #1c121bc2 26%, #23192336 70%, #2319231c); }
+  .hero-body { align-items: flex-end; min-height: 0; }
+  .hero-copy { width: 100%; max-width: 100%; padding-block: 18px 22px; }
+  .hero-copy h1 { font-size: clamp(2.85rem, 12vw, 4.7rem); line-height: .94; }
+  .hero-kicker { margin-bottom: 14px; font-size: clamp(.53rem, 2.15vw, .66rem); letter-spacing: .12em; gap: 8px; }
+  .hero-kicker span { width: 16px; flex: 0 0 16px; }
+  .hero-copy p { max-width: 32ch; margin-top: 15px; font-size: clamp(.9rem, 3.65vw, 1.04rem); line-height: 1.55; }
+  .hero-cta { margin-top: 18px; min-height: 48px; padding-inline: 18px; }
   .hero-side, .chapter-indicator { display: none; }
-  .hero-bottom-inner { height: 58px; grid-template-columns: 1fr auto; }
-  .scroll-link, .jump-link { font-size: .66rem; gap: 6px; }
-  .round-arrow { width: 27px; height: 27px; }
-  .evolution-stage, .relay-stage { min-height: 500px; }
+  .hero-bottom-inner { height: 60px; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; }
+  .scroll-link, .jump-link { font-size: .71rem; gap: 8px; white-space: nowrap; }
+  .round-arrow { width: 32px; height: 32px; }
+
+  /* Títulos e cenas seguintes respeitam a largura disponível. */
+  .evolution-stage, .relay-stage { min-height: 0; }
+  .evolution h2 { font-size: clamp(3.1rem, 11.4vw, 4.6rem); }
   .track-map { transform: translateY(35px); }
   .paths-stage { padding-block: 46px 32px; }
-  .paths-heading h2 { font-size: clamp(2.65rem,10vw,3.75rem); }
+  .paths-heading h2 { font-size: clamp(2.65rem, 9.8vw, 4rem); line-height: .98; }
   .experience-reel { grid-template-columns: 1fr; }
   .experience figcaption { padding-inline: 16px; }
-  #filme[data-motion=on] .experience { height: min(48svh,350px); }
-  .relay-copy h2 { font-size: clamp(3.35rem,11vw,4.8rem); }
-  .relay-shade { background: linear-gradient(90deg,#231720df,#23172052); }
+  #filme[data-motion=on] .experience { height: min(48svh, 350px); }
+  .relay-copy h2 { max-width: 100%; font-size: clamp(2.8rem, 10.8vw, 4.7rem); line-height: .98; }
+  .relay-shade { background: linear-gradient(90deg, #231720df, #23172052); }
   .relay-paths path:nth-child(3), .relay-paths circle:nth-child(6) { display: none; }
-  .agenda-arrow { width: 35px; }
-  .filter-pill { font-size: .73rem; padding-inline: 10px; }
+
+  /* Agenda com filtros horizontais e busca em linhas próprias. */
+  .agenda { padding-block: 60px; }
+  .agenda-header { gap: 8px; margin-bottom: 26px; }
+  .agenda-header h2 { font-size: clamp(3rem, 10.4vw, 4.6rem); line-height: .95; }
+  .agenda-arrow { width: 32px; flex-shrink: 0; }
+  .filters { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; padding-block: 16px; }
+  .filter-tabs {
+    width: 100%;
+    min-width: 0;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .filter-tabs::-webkit-scrollbar { display: none; }
+  .filter-pill { flex: none; font-size: .75rem; padding-inline: 12px; }
+  .event-search {
+    display: grid;
+    width: 100%;
+    min-width: 0;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 10px;
+    align-items: stretch;
+  }
+  .search-box { grid-column: 1 / -1; width: 100%; min-width: 0; }
+  .search-box input { width: 100%; min-width: 0; }
+  .event-search select { width: 100%; padding-inline: 12px; }
   .event-grid, .form-row { grid-template-columns: 1fr; }
-  .admin-stats { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .card-info h3 { font-size: clamp(2rem, 8vw, 2.5rem); }
+  .page-title { font-size: clamp(2.9rem, 10.5vw, 4.1rem); }
+  .admin-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 360px) {
+  .brand { font-size: 2rem; }
+  .brand svg { width: 22px; height: 22px; }
+  .account-link { gap: 6px; padding-inline: 10px; font-size: .75rem; }
+  .masthead nav { gap: 6px; font-size: .7rem; }
+  .hero-copy h1 { font-size: clamp(2.65rem, 12.2vw, 2.85rem); }
+  .jump-link { display: none; }
+  .hero-bottom-inner { display: flex; justify-content: flex-start; }
 }
 
 @media (prefers-reduced-motion: reduce) {
