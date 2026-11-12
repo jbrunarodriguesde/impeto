@@ -72,7 +72,7 @@ export async function getEvents({ query, category, type, page, pageSize }: {
   try {
     const database = await db()
   const term = query.toLowerCase().normalize('NFD').replace(/\p{Mark}/gu, '').replace(/[\\%_]/g, char => '\\' + char)
-  return database.query<Event>(`select ${columns}, ${seats} from impeto.events e
+  return await database.query<Event>(`select ${columns}, ${seats} from impeto.events e
     where e.published and e.starts_at > now()
       and ($1 = '' or translate(lower(concat_ws(' ',e.title,e.modality,e.category,e.city,e.venue)),
         'áàâãäéèêëíìîïóòôõöúùûüç','aaaaaeeeeiiiiooooouuuuc') like '%' || $1 || '%')
