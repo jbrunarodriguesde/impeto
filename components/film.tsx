@@ -1,6 +1,7 @@
 import { ArrowDown, ArrowDownRight, ArrowUpRight, Wind, Flower2, CircleDot, MoveUpRight, Dumbbell, Sparkles } from 'lucide-react'
 import { FilmMotion } from './film-motion'
 import { SilkHero } from './hero/SilkHero'
+import { WellnessMobileCarousel } from './wellness-mobile-carousel'
 
 const milestones = ['Descobrir', 'Aprender', 'Evoluir', 'Conectar', 'Conquistar']
 const experiences = [
@@ -133,6 +134,7 @@ export function Film() {
         </div>
         <div className="wellness-journey">
           <p className="wellness-overline">Cinco formas de se reconectar <span>01 — 05</span></p>
+          <div className="wellness-mobile-only"><WellnessMobileCarousel practices={practices}/></div>
           <ol className="wellness-steps">
             {practices.map((practice, index) => {
               const Icon = practice.icon

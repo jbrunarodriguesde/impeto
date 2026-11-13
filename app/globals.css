@@ -827,3 +827,12 @@ html { scroll-behavior: smooth; }
     z-index: 2;
   }
 }
+
+/* O desktop mantém a narrativa original; mobile usa um card por vez. */
+.wellness-mobile-only { display: none; }
+@media (max-width: 680px) {
+  .wellness-mobile-only { display: block; width: 100%; min-width: 0; }
+  .wellness-journey > .wellness-steps { display: none; }
+  .wellness-journey { min-width: 0; }
+  .wellness-chapter { overflow-x: clip; }
+}
