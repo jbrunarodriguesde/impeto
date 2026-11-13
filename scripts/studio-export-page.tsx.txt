@@ -1,0 +1,19 @@
+'use client'
+import { useEffect, useRef } from 'react'
+import type { StudioScene } from '@/components/sports-3d/SportStage'
+export default function Export() {
+ const canvas=useRef<HTMLCanvasElement>(null)
+ useEffect(()=>{void(async()=>{
+ const THREE=await import('three')
+ const {RoomEnvironment}=await import('three/addons/environments/RoomEnvironment.js')
+ const {createStudioScene}=await import('@/components/sports-3d/studio-scene')
+ const kind=new URLSearchParams(location.search).get('scene') as StudioScene || 'hero'
+ const renderer=new THREE.WebGLRenderer({canvas:canvas.current!,alpha:true,antialias:true,preserveDrawingBuffer:true})
+ renderer.setSize(900,760);renderer.setClearColor(0,0);renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.05
+ const pmrem=new THREE.PMREMGenerator(renderer);const room=new RoomEnvironment();const env=pmrem.fromScene(room,.04)
+ const studio=createStudioScene(kind,false);studio.resize(900,760);studio.scene.environment=env.texture
+ renderer.render(studio.scene,studio.camera)
+ document.documentElement.dataset.exportReady='true'
+ })()},[])
+ return <canvas ref={canvas} style={{position:'fixed',inset:0,zIndex:99}}/>
+}

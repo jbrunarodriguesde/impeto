@@ -32,7 +32,7 @@ A telemetria opcional usa `NEXT_PUBLIC_ANALYTICS=1`. Grava visualizações e med
 
 ## Imagens e movimento
 
-O primeiro capítulo usa quadros fotográficos gerados para o projeto, com enquadramento, escala e máscaras sincronizados à rolagem. O movimento da atleta é sugerido pela sucessão de quadros. As linhas são SVG, e as experiências e a cena de revezamento avançam e recuam conforme a posição da página. Com a preferência de movimento reduzido, as imagens e os capítulos ficam estáticos. O atalho da capa leva direto à agenda.
+A identidade Pink Studio usa cenas esportivas locais em Three.js, integradas aos espaços reservados no grid. O conteúdo permanece em fluxo normal, com revelações leves via GSAP e sem cenas presas à rolagem. WebPs das mesmas composições aparecem imediatamente e substituem WebGL em movimento reduzido, economia de dados ou falha do contexto. As cinco práticas usam carrossel acessível no celular. Consulte [design.md](design.md) para paleta, materiais, composição, responsividade e reprodução da validação.
 
 Instrument Serif e DM Sans são distribuídas nos pacotes Fontsource sob SIL Open Font License. A interface foi criada para o projeto. As referências catalogadas no Notion foram consultadas sem copiar seus componentes, instalar skills do catálogo ou executar os scripts externos.
 
