@@ -84,6 +84,7 @@ export function Sports3DOverlay() {
               }
             }
           }
+          if(!objects.some(item=>item.near)) renderer.clear()
           run()
         },{rootMargin:'250px 0px 250px 0px'})
         const anchors=new Set(objects.map(item=>item.anchor).filter((anchor):anchor is HTMLElement=>Boolean(anchor)))
