@@ -1,5 +1,4 @@
 import { ArrowDownRight, ArrowUpRight, Sparkles } from 'lucide-react'
-import { SilkCanvas } from './SilkCanvas'
 import styles from './SilkHero.module.css'
 
 // Primeiro capítulo da Ímpeto: o restante do storytelling continua em Film.
@@ -7,7 +6,6 @@ export function SilkHero() {
   return <section className={`silk-hero-shell ${styles.hero}`} aria-labelledby="hero-silk-title">
     <div className={styles.art} aria-hidden="true">
       <div className={styles.fallbackArt}/>
-      <SilkCanvas/>
     </div>
     <div className={styles.overlay} aria-hidden="true"/>
     <div className={styles.content}>
