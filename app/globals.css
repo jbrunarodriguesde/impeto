@@ -118,6 +118,133 @@ body:has(.hero-stage) .masthead { position: absolute; inset: 0 0 auto; }
 .reel-line { display: none; }
 #filme[data-motion=on] .reel-line { display: block; margin-top: 14px; height: 2px; background: var(--line); }
 .reel-line span { display: block; height: 100%; background: var(--plum); transform: scaleX(.03); transform-origin: left; }
+/* Capítulo editorial: da pausa à potência. Sem alterar as cenas existentes. */
+.wellness-chapter {
+  position: relative;
+  overflow: hidden;
+  padding-block: clamp(75px, 9vw, 145px);
+  color: #fff5f1;
+  background: radial-gradient(circle at 12% 28%, #52394c 0%, #32232f 48%, #271c28 100%);
+}
+.wellness-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(48px, 7vw, 125px);
+}
+.wellness-intro { position: sticky; top: 54px; min-width: 0; }
+.wellness-intro .eyebrow { color: #edcad2; }
+.wellness-intro h2 {
+  max-width: 660px;
+  margin-top: 21px;
+  font: 400 clamp(3.8rem, 6.1vw, 6.6rem)/.94 var(--serif);
+  letter-spacing: -.025em;
+}
+.wellness-intro h2 em { display: block; color: #efc7d1; }
+.wellness-lead {
+  max-width: 430px;
+  margin-top: 23px;
+  color: #f1dfe5;
+  font-size: clamp(.96rem, 1.25vw, 1.08rem);
+  line-height: 1.7;
+}
+.wellness-photo {
+  position: relative;
+  margin-top: clamp(27px, 3.2vw, 43px);
+  height: clamp(260px, 24vw, 355px);
+  overflow: hidden;
+  background: #70535e;
+  isolation: isolate;
+}
+.wellness-photo::after {
+  position: absolute;
+  inset: 0;
+  content: '';
+  pointer-events: none;
+  background: linear-gradient(0deg, #211620c9, transparent 49%);
+}
+.wellness-photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.wellness-photo figcaption {
+  position: absolute;
+  z-index: 1;
+  bottom: 20px;
+  left: 22px;
+  right: 20px;
+  font: italic 400 clamp(1.7rem, 2.7vw, 2.4rem)/1 var(--serif);
+  color: #fff2ee;
+}
+.wellness-journey { min-width: 0; }
+.wellness-overline {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  padding-bottom: 20px;
+  color: #e8c5d0;
+  font-size: .68rem;
+  font-weight: 650;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.wellness-overline span { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.wellness-steps { margin: 0; padding: 0; list-style: none; border-bottom: 1px solid #eac9d04a; }
+.wellness-step {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) 20px;
+  gap: clamp(12px, 2vw, 25px);
+  align-items: start;
+  min-height: 154px;
+  padding: clamp(25px, 2.3vw, 34px) 14px;
+  border-top: 1px solid #eac9d04a;
+  transition: background .35s ease, border-color .35s ease;
+}
+.wellness-number { padding-top: 3px; color: #edbdca; font-size: .78rem; font-variant-numeric: tabular-nums; }
+.wellness-name { margin-bottom: 8px; color: #e4c2cc; font-size: .7rem; font-weight: 650; letter-spacing: .15em; text-transform: uppercase; }
+.wellness-step h3 { font: 400 clamp(2.1rem, 3.1vw, 3.1rem)/1 var(--serif); }
+.wellness-description { max-width: 400px; margin-top: 10px; color: #ead8de; font-size: .88rem; line-height: 1.58; }
+.wellness-step > svg { margin-top: 2px; color: #eec6d0; transition: transform .3s ease; }
+.wellness-step.is-active { border-color: #efd0d9; background: #ffffff0e; }
+.wellness-step.is-active > svg { transform: translate(3px, -3px); }
+.wellness-link {
+  display: inline-flex;
+  gap: 12px;
+  align-items: center;
+  min-height: 48px;
+  margin-top: 26px;
+  border-bottom: 1px solid #e9bac8;
+  color: #f9e6e9;
+  font-size: .85rem;
+  font-weight: 650;
+}
+.wellness-link:hover { color: white; border-color: white; }
+.wellness-link svg { flex: none; }
+
+@media (max-width: 880px) {
+  .wellness-layout { grid-template-columns: minmax(0, 1fr); gap: 48px; }
+  .wellness-intro { position: static; }
+  .wellness-intro h2 { max-width: 750px; }
+  .wellness-photo { height: clamp(255px, 45vw, 385px); }
+}
+@media (max-width: 680px) {
+  .wellness-chapter { padding-block: 72px 76px; }
+  .wellness-layout { gap: 38px; }
+  .wellness-intro h2 { font-size: clamp(2.9rem, 11.4vw, 4.1rem); line-height: .96; }
+  .wellness-lead { margin-top: 17px; font-size: .94rem; }
+  .wellness-photo { height: clamp(215px, 58vw, 285px); margin-top: 25px; }
+  .wellness-photo figcaption { bottom: 16px; left: 16px; font-size: 1.75rem; }
+  .wellness-overline { padding-bottom: 14px; font-size: .6rem; }
+  .wellness-overline span { display: none; }
+  .wellness-step {
+    grid-template-columns: 29px minmax(0, 1fr);
+    min-height: 0;
+    gap: 12px;
+    padding: 23px 2px 25px;
+  }
+  .wellness-step > svg { display: none; }
+  .wellness-step h3 { font-size: clamp(1.95rem, 7.8vw, 2.55rem); }
+  .wellness-description { font-size: .85rem; line-height: 1.55; }
+  .wellness-link { max-width: 100%; margin-top: 23px; }
+}
+
 .relay-scene { background: #3e2935; color: #fff5ee; }
 .relay-stage { height: 100svh; min-height: 530px; display: grid; align-items: center; }
 .relay-frame, .relay-shade, .relay-paths { position: absolute; inset: 0; width: 100%; height: 100%; }
