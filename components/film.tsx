@@ -134,7 +134,7 @@ export function Film() {
         </div>
         <div className="wellness-journey">
           <p className="wellness-overline">Cinco formas de se reconectar <span>01 — 05</span></p>
-          <div className="wellness-mobile-only"><WellnessMobileCarousel practices={practices}/></div>
+          <div className="wellness-mobile-only"><WellnessMobileCarousel practices={practices.map(({ name, headline, description, image, feeling }) => ({ name, headline, description, image, feeling }))}/></div>
           <ol className="wellness-steps">
             {practices.map((practice, index) => {
               const Icon = practice.icon
