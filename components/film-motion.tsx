@@ -47,6 +47,24 @@ export function FilmMotion() {
         words[0].classList.add('current')
         gsap.to('.experience-reel', { xPercent: -75, ease: 'none', scrollTrigger: drive('.paths-scene') })
         gsap.to('.reel-line span', { scaleX: 1, ease: 'none', scrollTrigger: drive('.paths-scene') })
+        // A nova história é percorrida naturalmente: cada prática ganha destaque ao entrar na tela.
+        // O conteúdo permanece legível mesmo sem JavaScript ou com movimento reduzido.
+        const wellnessImage = root.querySelector<HTMLImageElement>('.wellness-photo img')
+        if (wellnessImage) {
+          gsap.fromTo(wellnessImage, { scale: phone ? 1.06 : 1.12 }, {
+            scale: 1,
+            ease: 'none',
+            scrollTrigger: { trigger: '.wellness-chapter', start: 'top bottom', end: 'bottom top', scrub: true }
+          })
+        }
+        for (const step of root.querySelectorAll<HTMLElement>('.wellness-step')) {
+          ScrollTrigger.create({
+            trigger: step,
+            start: 'top 76%',
+            end: 'bottom 28%',
+            toggleClass: { targets: step, className: 'is-active' }
+          })
+        }
         const relay = gsap.timeline({ defaults: { ease: 'none' }, scrollTrigger: drive('.relay-scene') })
         relay.fromTo('.relay-frame', { scale: 1.13, xPercent: phone ? 0 : -3 }, { scale: 1, xPercent: 0, duration: 1 }, 0)
         relay.to('.relay-paths path', { strokeDashoffset: 0, duration: 0.7, stagger: 0.08 }, 0.14)
