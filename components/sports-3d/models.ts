@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js'
 
 export type SportKind = 'shoe' | 'bottle' | 'dumbbell' | 'pilates' | 'mat' | 'bike' | 'volleyball' | 'headphones'
-const palette = { coral: 0xff91c1, rose: 0xee8aba, peach: 0xffd4e6, gold: 0xffffff }
+const palette = { coral: 0x0593c6, rose: 0xde3995, peach: 0xdff4fb, gold: 0xffffff }
 // Plástico premium opaco: as silhuetas continuam reconhecíveis em fundo claro.
 export const glass = (color = palette.coral, lite = false) => new THREE.MeshPhysicalMaterial({
   color, metalness: 0.02, roughness: lite ? .38 : .3, transmission: 0,
@@ -30,7 +30,7 @@ const torus = (g:THREE.Group,r:number,t:number,m:THREE.Material,p:[number,number
 export function makeSport(kind: SportKind, lite: boolean): THREE.Group {
   const g = new THREE.Group()
   const pink=glass(palette.rose,lite), coral=glass(palette.coral,lite), peach=glass(palette.peach,lite)
-  const detail=matte(0xfff7fb), dark=matte(0x873758)
+  const detail=matte(0xffffff), dark=matte(0x07516f)
   if(kind==='dumbbell') {
     for(const offset of [-.28,.28]) {
       const d=new THREE.Group(); d.position.set(offset,offset*.35,offset*.45); d.rotation.z=offset*.65;g.add(d)

@@ -32,7 +32,7 @@ A telemetria opcional usa `NEXT_PUBLIC_ANALYTICS=1`. Grava visualizações e med
 
 ## Imagens e movimento
 
-A identidade Pink Studio usa renders estáticos das cenas esportivas criadas com Three.js, integrados aos espaços reservados no grid. Por preferência da usuária, as imagens ficam paradas: sem flutuação, rotação, parallax ou reação ao mouse; não há canvas WebGL na página pública. Os modelos e o exportador continuam disponíveis para regenerar os WebPs. As cinco práticas mantêm o carrossel acessível no celular. Consulte [design.md](design.md) para as regras visuais.
+A identidade azul-céu, branco e rosa-choque usa renders estáticos das cenas esportivas criadas com Three.js, integrados aos espaços reservados no grid. Por preferência da usuária, as imagens ficam paradas: sem flutuação, rotação, parallax ou reação ao mouse; não há canvas WebGL na página pública. Os modelos e o exportador continuam disponíveis para regenerar os WebPs. As cinco práticas mantêm o carrossel acessível no celular. Consulte [design.md](design.md) para as regras visuais.
 
 Instrument Serif e DM Sans são distribuídas nos pacotes Fontsource sob SIL Open Font License. A interface foi criada para o projeto. As referências catalogadas no Notion foram consultadas sem copiar seus componentes, instalar skills do catálogo ou executar os scripts externos.
 

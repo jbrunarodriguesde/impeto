@@ -35,15 +35,15 @@ export function createStudioScene(kind: StudioScene, lite: boolean) {
    root.add(group)
    return { group, y:piece.at[1], index }
  })
- scene.add(new THREE.HemisphereLight(0xfff5fa,0xd28dab,.85))
- const key=new THREE.DirectionalLight(0xfffaff,2.2);key.position.set(-3,6,8);scene.add(key)
+ scene.add(new THREE.HemisphereLight(0xffffff,0x507f94,.85))
+ const key=new THREE.DirectionalLight(0xffffff,2.2);key.position.set(-3,6,8);scene.add(key)
  const fill=new THREE.DirectionalLight(0xffffff,.65);fill.position.set(5,1,3);scene.add(fill)
- const rim=new THREE.DirectionalLight(0xffc8e4,.9);rim.position.set(-4,3,-5);scene.add(rim)
+ const rim=new THREE.DirectionalLight(0xdff4fb,.9);rim.position.set(-4,3,-5);scene.add(rim)
  // Sombras de contato difusas, sem shadow maps ou passes adicionais.
  const surface=document.createElement('canvas');surface.width=128;surface.height=128
  const ctx=surface.getContext('2d')!
  const gradient=ctx.createRadialGradient(64,64,2,64,64,64)
- gradient.addColorStop(0,'rgba(110,35,70,.25)');gradient.addColorStop(.4,'rgba(110,35,70,.13)');gradient.addColorStop(1,'rgba(110,35,70,0)')
+ gradient.addColorStop(0,'rgba(7,57,79,.25)');gradient.addColorStop(.4,'rgba(7,57,79,.13)');gradient.addColorStop(1,'rgba(7,57,79,0)')
  ctx.fillStyle=gradient;ctx.fillRect(0,0,128,128)
  const texture=new THREE.CanvasTexture(surface)
  const shadow=new THREE.Mesh(new THREE.PlaneGeometry(5.8,1.5),new THREE.MeshBasicMaterial({map:texture,transparent:true,depthWrite:false}))

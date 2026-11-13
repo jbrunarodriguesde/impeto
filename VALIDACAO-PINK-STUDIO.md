@@ -1,6 +1,10 @@
-# Validação · Pink Studio
+# Validação · Ímpeto
 
 Revisão de 13/11/2026 sobre `jbrunarodriguesde/impeto`, base `f32e0a5`.
+
+## Atualização: paleta azul-céu, branco e rosa-choque
+
+Aplicadas as cores `#0593C6`, `#FFFFFF` e `#DE3995` da referência enviada pela usuária. Novo símbolo e favicon, equipamentos estáticos regenerados, fotografias com duotone azul/branco e interface recolorida, inclusive telas de conta, gestão e eventos. Contraste de leitura na hero conferido (texto `#032130` sobre azul: 4,74:1; títulos grandes brancos: 3,50:1). Build de produção e harness de navegação, sete larguras e estabilidade das imagens aprovados. Revisão visual desktop/mobile concluída.
 
 ## Atualização: imagens paradas
 

@@ -1,23 +1,23 @@
-# Ímpeto · Pink Studio
+# Ímpeto · Azul-céu, branco e rosa-choque
 
 Direção atual, 13/11/2026. Substitui a capa vinho, os acessórios transparentes nas bordas e a narrativa com cenas longas presas à rolagem. O repositório original não continha `design.md`.
 
-## Identidade
+## Identidade atual
 
-Campanha contemporânea de esporte e bem-estar feminino: composição editorial, equipamento reconhecível, iluminação suave, planos rosados alternados e espaço de leitura protegido. Instrument Serif em títulos; DM Sans em navegação, textos e controles. Fontes locais existentes.
+Paleta extraída da imagem enviada pela usuária: azul-céu `#0593C6`, branco `#FFFFFF` e rosa-choque `#DE3995`. A identidade anterior Pink Studio foi substituída.
 
 | Papel | Cor |
 |---|---|
-| Rosa principal / hero | `#FF91C1` |
-| Rosa suave / pausa e rodapé | `#FFD4E6` |
-| Papel / movimento e bem-estar | `#FFF0F6` |
-| Rosa intermediário / comunidade | `#F5B4D0` |
-| Texto e CTA principal | `#57243D` |
-| Superfície clara / experiências e agenda | `#FFFBFD` |
-| Branco | `#FFFFFF` |
-| Ênfase tipográfica | `#A1446E` (hero: `#8A2D59`) |
+| Principal / hero, comunidade e rodapé | `#0593C6` |
+| Superfícies de leitura | `#FFFFFF` |
+| Acentos / ponto da marca | `#DE3995` |
+| Fundos claros derivados do azul | `#DFF4FB`, `#F2FAFF` |
+| Texto escuro derivado do azul | `#032130` |
+| Rosa de alto contraste para textos pequenos | `#B51E76` |
 
-Branco sobre CTA escuro e fotografia com scrim. Evitar branco sobre rosa claro para texto de leitura, inclusive no título. Botões com alvo mínimo de 44 px e foco de 2 px com afastamento de 5 px. Estados de hover não contêm informação exclusiva.
+Títulos brancos nas áreas azuis; textos de leitura escuros. CTAs principais da hero e comunidade brancos, com texto azul escuro. Filtros ativos e destaques usam rosa. Instrument Serif e DM Sans preservadas. Foco visível e controles de pelo menos 44 px.
+
+Símbolo novo: quadrado azul de cantos arredondados, traço de pulso branco e ponto rosa. Mesmo desenho no cabeçalho, rodapé e favicon. Fotografias originais preservadas com tratamento duotone azul/branco via filtro SVG local. Equipamentos usam azul, branco e rosa-choque nos materiais de origem; os WebPs foram regenerados. Sem animação das imagens.
 
 ## Grid e composição
 
@@ -42,7 +42,7 @@ Validar sempre 320, 360, 390, 430, 768, 1024 e 1440 px. Não corrigir overflow a
 
 ## Modelos, materiais e luz
 
-Three.js existente, modelos procedurais locais (sem downloads GLB, texturas externas ou dependências adicionais; geometrias agrupadas por material para reduzir draw calls). Tênis com solado, cabedal, painel lateral, colar, lingueta, cadarços, alça e sulcos; acessórios com silhuetas e detalhes próprios. Materiais rosados opacos, clearcoat suave, metalness baixo. Sem transmissão transparente que apague o equipamento. Acrílico ou vidro fosco só quando a silhueta continuar clara.
+Three.js existente, modelos procedurais locais (sem downloads GLB, texturas externas ou dependências adicionais; geometrias agrupadas por material para reduzir draw calls). Tênis com solado, cabedal, painel lateral, colar, lingueta, cadarços, alça e sulcos; acessórios com silhuetas e detalhes próprios. Materiais na paleta azul/branco/rosa opacos, clearcoat suave, metalness baixo. Sem transmissão transparente que apague o equipamento. Acrílico ou vidro fosco só quando a silhueta continuar clara.
 
 Luz de ambiente de estúdio via RoomEnvironment/PMREM, hemisphere, key, fill e rim. Tonemapping ACES, exposição 1,05. Sombras difusas por textura radial leve, sem shadow maps. Não transformar as peças em ícones planos ou adicionar detalhes sem função.
 
@@ -71,3 +71,5 @@ Para regenerar arte estática após mudar modelos/luzes: com servidor de desenvo
 As três imagens citadas no pedido não foram anexadas nesta conversa; a calibração usa a paleta e a direção textual fornecidas. As medidas locais não substituem Core Web Vitals em produção ou teste em aparelho físico.
 
 Histórico: a primeira revisão Pink Studio usava um renderer animado compartilhado. A pedido da usuária, esse comportamento foi substituído por renders estáticos para eliminar tremulação.
+
+Histórico cromático: a direção rosa predominante foi substituída após a usuária enviar a referência de azul-céu, branco e rosa-choque. As composições e a decisão de manter imagens estáticas continuam vigentes.
