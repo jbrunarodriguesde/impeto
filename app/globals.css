@@ -827,3 +827,25 @@ html { scroll-behavior: smooth; }
     z-index: 2;
   }
 }
+
+/* Camada decorativa única: não interfere em navegação, filtros ou CTAs. */
+.sports-3d-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100dvh;
+  z-index: 4;
+  pointer-events: none;
+  touch-action: auto;
+  contain: strict;
+  opacity: .86;
+}
+@media (max-width: 1050px) {
+  .sports-3d-overlay { opacity: .64; }
+}
+@media (max-width: 680px) {
+  .sports-3d-overlay { opacity: .48; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sports-3d-overlay { display: none; }
+}
