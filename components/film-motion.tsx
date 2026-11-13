@@ -16,12 +16,69 @@ export function FilmMotion() {
       if (!root || attempt !== generation || !preference.matches) return
       gsap.registerPlugin(ScrollTrigger)
       root.dataset.motion = 'on'
-      const frames = Array.from(root.querySelectorAll<HTMLImageElement>('.alternate'))
-      for (const frame of frames) frame.src = frame.dataset.src!
       const media = gsap.matchMedia()
       media.add({ desktop: '(min-width: 681px)', phone: '(max-width: 680px)' }, ({ conditions }) => {
         const phone = conditions?.phone
         const drive = (trigger: string) => ({ trigger, start: 'top top', end: 'bottom bottom', scrub: true, invalidateOnRefresh: true })
+
+        if (phone) {
+          // No celular, a narrativa flui verticalmente. Evitar cenas pinadas que
+          // deixam grandes espaços vazios ao variar a altura do navegador.
+          gsap.from('.hero-copy > *', {
+            opacity: 0,
+            y: 14,
+            duration: .65,
+            stagger: .08,
+            ease: 'power2.out',
+            clearProps: 'opacity,transform'
+          })
+
+          for (const item of root.querySelectorAll<HTMLElement>(
+            '.evolution-copy, .paths-heading, .experience, .breath-content, .wellness-intro, .wellness-step, .relay-copy'
+          )) {
+            gsap.fromTo(item, { opacity: 0, y: 18 }, {
+              opacity: 1,
+              y: 0,
+              duration: .7,
+              ease: 'power2.out',
+              scrollTrigger: { trigger: item, start: 'top 92%', once: true }
+            })
+          }
+
+          const steps = Array.from(root.querySelectorAll<HTMLElement>('.wellness-step'))
+          const photos = Array.from(root.querySelectorAll<HTMLElement>('.wellness-gallery-frame'))
+          const counter = root.querySelector<HTMLElement>('.wellness-current-frame')
+          const bar = root.querySelector<HTMLElement>('.wellness-progress-track i')
+          const showPractice = (active: number) => {
+            steps.forEach((step, index) => step.classList.toggle('is-active', index === active))
+            photos.forEach((photo, index) => photo.classList.toggle('is-visible', index === active))
+            if (counter) counter.textContent = String(active + 1).padStart(2, '0')
+            if (bar) bar.style.transform = `scaleX(${(active + 1) / steps.length})`
+          }
+          if (steps.length && photos.length === steps.length) {
+            steps.forEach((step, index) => {
+              ScrollTrigger.create({
+                trigger: step,
+                start: 'top 80%',
+                end: 'bottom 25%',
+                onEnter: () => showPractice(index),
+                onEnterBack: () => showPractice(index)
+              })
+            })
+          }
+
+          return () => {
+            steps.forEach(step => step.classList.remove('is-active'))
+            photos.forEach((photo, index) => photo.classList.toggle('is-visible', index === 0))
+            if (counter) counter.textContent = '01'
+            if (bar) bar.style.removeProperty('transform')
+          }
+        }
+
+        // Os quadros extras pertencem à experiência cinematográfica do desktop.
+        for (const frame of root.querySelectorAll<HTMLImageElement>('.alternate')) {
+          frame.src = frame.dataset.src!
+        }
         const hero = gsap.timeline({ defaults: { ease: 'none' }, scrollTrigger: drive('.hero-scene') })
         hero.fromTo('.hero-cover', { scale: 1 }, { scale: phone ? 1.14 : 1.24, transformOrigin: '80% 88%', duration: 0.36 }, 0)
         hero.fromTo('.frame-cadarco', { clipPath: 'inset(0 0 0 100%)', scale: 1.12 }, { clipPath: 'inset(0 0 0 0%)', scale: 1, duration: 0.23 }, 0.16)
