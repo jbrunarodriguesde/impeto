@@ -14,6 +14,8 @@ export function Sports3DOverlay() {
     const coarse = window.matchMedia('(max-width: 680px)')
     const small = window.matchMedia('(max-width: 1050px)')
     if (reduced.matches) return
+    // Evita iniciar WebGL em dispositivos sem suporte ou com economia de dados.
+    if ('connection' in navigator && (navigator as Navigator & {connection?: {saveData?: boolean}}).connection?.saveData) return
 
     let cancelled = false
     let cleanup: (() => void) | undefined
@@ -45,30 +47,47 @@ export function Sports3DOverlay() {
         type Kind = import('./models').SportKind
         type Placement = { section: string; kind: Kind; x: number; y: number; size: number; phase: number }
         const placements: Placement[] = [
-          {section:'.silk-hero-shell',kind:'shoe',x:.89,y:.43,size:1.05,phase:0},
-          {section:'.silk-hero-shell',kind:'bottle',x:.95,y:.72,size:.52,phase:2.1},
-          {section:'.silk-hero-shell',kind:'dumbbell',x:.97,y:.2,size:.42,phase:3.5},
-          {section:'#movimento',kind:'dumbbell',x:.87,y:.6,size:.86,phase:1.2},
+          {section:'.silk-hero-shell',kind:'shoe',x:.91,y:.34,size:.78,phase:0},
+          {section:'.silk-hero-shell',kind:'bottle',x:.94,y:.77,size:.38,phase:2.1},
+          {section:'.silk-hero-shell',kind:'dumbbell',x:.97,y:.13,size:.30,phase:3.5},
+          {section:'#movimento',kind:'dumbbell',x:.92,y:.68,size:.63,phase:1.2},
           {section:'.paths-scene',kind:'volleyball',x:.84,y:.37,size:.75,phase:1.4},
           {section:'.paths-scene',kind:'bike',x:.82,y:.72,size:.72,phase:3.1},
           {section:'.paths-scene',kind:'shoe',x:.92,y:.54,size:.57,phase:4.1},
-          {section:'.breath-scene',kind:'pilates',x:.19,y:.49,size:.84,phase:2.4},
-          {section:'.breath-scene',kind:'mat',x:.78,y:.74,size:.65,phase:3.9},
-          {section:'#bem-estar',kind:'mat',x:.88,y:.27,size:.58,phase:2.2},
-          {section:'#bem-estar',kind:'pilates',x:.88,y:.76,size:.5,phase:4.8},
+          {section:'.breath-scene',kind:'pilates',x:.88,y:.63,size:.67,phase:2.4},
+          {section:'.breath-scene',kind:'mat',x:.92,y:.78,size:.48,phase:3.9},
+          {section:'#bem-estar',kind:'mat',x:.94,y:.27,size:.44,phase:2.2},
+          {section:'#bem-estar',kind:'pilates',x:.94,y:.76,size:.40,phase:4.8},
           {section:'#comunidade',kind:'headphones',x:.84,y:.48,size:.83,phase:1.8},
           {section:'#eventos',kind:'volleyball',x:.91,y:.16,size:.4,phase:2.7},
           {section:'#eventos',kind:'bike',x:.94,y:.85,size:.37,phase:5.3},
           {section:'.site-footer',kind:'headphones',x:.88,y:.48,size:.56,phase:3.2},
           {section:'.site-footer',kind:'bottle',x:.96,y:.22,size:.34,phase:5.1}
         ]
-        const objects=placements.map((p,index)=>{
-          const root=new THREE.Group()
-          const model=makeSport(p.kind,lite)
-          root.add(model);scene.add(root)
-          const anchor=document.querySelector<HTMLElement>(p.section)
-          return {p,index,root,anchor}
-        })
+        // Geometrias são criadas apenas quando a seção se aproxima do viewport.
+        // O mesmo objeto permanece montado após a primeira aparição.
+        const objects=placements.map((p,index)=>({
+          p,index,root:null as ThreeTypes.Group | null,
+          anchor:document.querySelector<HTMLElement>(p.section),
+          near:false
+        }))
+        const sectionObserver=new IntersectionObserver(entries=>{
+          for(const entry of entries){
+            for(const item of objects){
+              if(item.anchor!==entry.target)continue
+              item.near=entry.isIntersecting
+              if(item.near && !item.root){
+                const root=new THREE.Group()
+                root.add(makeSport(item.p.kind,lite))
+                scene.add(root)
+                item.root=root
+              }
+            }
+          }
+          run()
+        },{rootMargin:'250px 0px 250px 0px'})
+        const anchors=new Set(objects.map(item=>item.anchor).filter((anchor):anchor is HTMLElement=>Boolean(anchor)))
+        anchors.forEach(anchor=>sectionObserver.observe(anchor))
         let width=1,height=1,raf=0,active=true,visible=true,elapsed=0,last=0,mouseX=0,mouseY=0,targetX=0,targetY=0
         const resize=()=>{
           width=Math.max(1,innerWidth);height=Math.max(1,innerHeight)
@@ -99,8 +118,8 @@ export function Sports3DOverlay() {
           mouseY+=(targetY-mouseY)*damp
           const sectionCount=new Map<string,number>()
           let any=false
-          for(const {p,root,anchor} of objects){
-            if(!anchor){root.visible=false;continue}
+          for(const {p,root,anchor,near} of objects){
+            if(!root || !anchor || !near){if(root)root.visible=false;continue}
             const rect=anchor.getBoundingClientRect()
             const inRange=rect.bottom>0&&rect.top<height
             const count=sectionCount.get(p.section)||0
@@ -131,8 +150,10 @@ export function Sports3DOverlay() {
           }
           if(any)renderer.render(scene,camera)
           else renderer.clear()
+          // Nenhuma seção 3D próxima: parar o loop até IntersectionObserver reativar.
+          if(!objects.some(item=>item.near) && raf){cancelAnimationFrame(raf);raf=0}
         }
-        const run=()=>{if(active&&visible&&!raf){last=0;raf=requestAnimationFrame(render)}else if((!active||!visible)&&raf){cancelAnimationFrame(raf);raf=0}}
+        const run=()=>{if(active&&visible&&objects.some(item=>item.near)&&!raf){last=0;raf=requestAnimationFrame(render)}else if((!active||!visible)&&raf){cancelAnimationFrame(raf);raf=0}}
         const onScroll=()=>{if(!raf)run()}
         window.addEventListener('resize',resize,{passive:true})
         window.addEventListener('pointermove',onPointer,{passive:true})
@@ -142,6 +163,7 @@ export function Sports3DOverlay() {
         run()
         cleanup=()=>{
           active=false;run()
+          sectionObserver.disconnect()
           window.removeEventListener('resize',resize)
           window.removeEventListener('pointermove',onPointer)
           document.removeEventListener('pointerleave',onLeave)
@@ -149,7 +171,7 @@ export function Sports3DOverlay() {
           window.removeEventListener('scroll',onScroll)
           const geometries=new Set<ThreeTypes.BufferGeometry>()
           const materials=new Set<ThreeTypes.Material>()
-          for(const {root} of objects)root.traverse(child=>{
+          for(const {root} of objects)root?.traverse(child=>{
             if(child instanceof THREE.Mesh){
               geometries.add(child.geometry)
               const mats=Array.isArray(child.material)?child.material:[child.material]
