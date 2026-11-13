@@ -1,7 +1,6 @@
 import { ArrowDown, ArrowDownRight, ArrowUpRight, Wind, Flower2, CircleDot, MoveUpRight, Dumbbell, Sparkles } from 'lucide-react'
 import { FilmMotion } from './film-motion'
 import { SilkHero } from './hero/SilkHero'
-import { Sports3DOverlay } from './sports-3d/Sports3DOverlay'
 import { SportStage } from './sports-3d/SportStage'
 import { WellnessCarousel } from './wellness-carousel'
 
@@ -59,7 +58,6 @@ const practices = [
 export function Film() {
   return <div id="filme">
     <FilmMotion />
-    <Sports3DOverlay />
     <SilkHero/>
     <section id="movimento" className="film-scene evolution" aria-labelledby="evolution-title">
       <div className="film-stage evolution-stage wrap">

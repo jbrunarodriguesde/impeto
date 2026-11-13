@@ -14,7 +14,7 @@ export function FilmMotion() {
       if (attempt !== generation) return
       gsap.registerPlugin(ScrollTrigger)
       const context = gsap.context(() => {
-        for (const item of document.querySelectorAll('.evolution-copy, .paths-heading, .experience, .breath-content, .wellness-intro, .wellness-step, .relay-copy')) {
+        for (const item of document.querySelectorAll('.evolution-copy, .paths-heading, .breath-content, .wellness-step, .relay-copy')) {
           gsap.from(item, { y: 20, opacity: 0, duration: .85, ease: 'power2.out', scrollTrigger: { trigger: item, start: 'top 94%', once: true } })
         }
         gsap.fromTo('.track-progress', { strokeDashoffset: 1 }, { strokeDashoffset: 0, ease: 'none', scrollTrigger: { trigger: '#movimento', start: 'top 80%', end: 'bottom 30%', scrub: 1 } })

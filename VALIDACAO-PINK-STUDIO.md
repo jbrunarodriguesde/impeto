@@ -2,7 +2,11 @@
 
 Revisão de 13/11/2026 sobre `jbrunarodriguesde/impeto`, base `f32e0a5`.
 
-## Resultado
+## Atualização: imagens paradas
+
+Por solicitação da usuária, as composições passam a usar exclusivamente os renders WebP. Removidos o canvas animado, as reações ao mouse/scroll, entradas de blocos com imagens, zoom no hover e transição da galeria. O harness agora compara capturas da arte da hero ao longo do tempo e após movimento do ponteiro, além de verificar ausência de canvas. Os resultados abaixo descrevem a primeira revisão Pink Studio.
+
+## Resultado anterior
 
 - Build otimizado Next.js e checagem TypeScript aprovados.
 - Chromium/Playwright em 320, 360, 390, 430, 768, 1024 e 1440 px: sem overflow horizontal; composições estáticas carregadas nas cinco áreas.
