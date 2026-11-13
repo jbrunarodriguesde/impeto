@@ -719,3 +719,91 @@ html { scroll-behavior: smooth; }
   .wellness-photo .wellness-gallery-frame { transition: none; transform: none; }
   .wellness-step, .wellness-practice-icon, .wellness-feeling svg { transition: none; }
 }
+
+
+/* Correção estrutural da rolagem mobile: cenas em fluxo, sem sobras de sticky/svh. */
+.hero-scene { background: #362229; }
+
+@media (max-width: 680px) {
+  /* dvh acompanha a área realmente visível, inclusive com a barra do navegador recolhida. */
+  #filme[data-motion=on] .film-stage {
+    position: relative;
+    top: auto;
+  }
+  #filme[data-motion=on] .film-scene,
+  #filme[data-motion=on] .paths-scene {
+    height: auto;
+    min-height: 0;
+  }
+  .hero-stage,
+  #filme[data-motion=on] .hero-stage {
+    height: auto;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding-top: 104px;
+  }
+  .hero-body { flex: 1 0 auto; padding-block: 28px; }
+  .hero-copy { padding-block: 10px 18px; }
+  .hero-bottom { flex: none; }
+  #filme[data-motion=on] .alternate,
+  #filme[data-motion=on] .hero-lane { display: none; }
+
+  .evolution-stage,
+  .relay-stage {
+    height: auto;
+    min-height: 72vh;
+    min-height: 72dvh;
+    padding-block: 80px;
+  }
+  #filme[data-motion=on] .milestones {
+    display: flex;
+    min-height: 0;
+    gap: 10px 18px;
+  }
+  #filme[data-motion=on] .milestones li {
+    grid-area: auto;
+    visibility: visible;
+    font-size: .95rem;
+  }
+  #filme[data-motion=on] .track-progress { stroke-dashoffset: 0; }
+  #filme[data-motion=on] .relay-paths path { stroke-dashoffset: 0; }
+  #filme[data-motion=on] .relay-paths circle { opacity: .85; }
+
+  .paths-stage,
+  #filme[data-motion=on] .paths-stage {
+    height: auto;
+    min-height: 0;
+    padding-block: 64px 70px;
+  }
+  #filme[data-motion=on] .experience-reel {
+    display: grid;
+    width: 100%;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+    transform: none !important;
+  }
+  #filme[data-motion=on] .experience {
+    display: block;
+    width: 100%;
+    height: clamp(220px, 62vw, 350px);
+    min-height: 0;
+    flex: none;
+  }
+  #filme[data-motion=on] .reel-line { display: none; }
+  .experience-window { margin-top: 25px; }
+
+  .wellness-chapter { overflow: hidden; }
+  .wellness-layout, .wellness-intro, .wellness-journey { min-width: 0; }
+}
+
+@media (max-width: 380px) {
+  .hero-copy h1 { font-size: clamp(2.55rem, 12vw, 3rem); }
+  .hero-kicker { letter-spacing: .085em; }
+  .scroll-link, .jump-link { font-size: .67rem; }
+  .masthead nav { gap: 7px; }
+}
+
+@media (prefers-reduced-motion: reduce) and (max-width: 680px) {
+  #filme .film-stage { position: relative; }
+  #filme .film-scene, #filme .paths-scene { height: auto; min-height: 0; }
+}
