@@ -5,3 +5,6 @@ node_modules/
 !.env.example
 *.tsbuildinfo
 next-env.d.ts
+
+# Capturas PNG locais; versões WebP para revisão ficam no repositório.
+artifacts/*.png

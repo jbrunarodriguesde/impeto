@@ -1,13 +1,12 @@
 import * as THREE from 'three'
+import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js'
 
 export type SportKind = 'shoe' | 'bottle' | 'dumbbell' | 'pilates' | 'mat' | 'bike' | 'volleyball' | 'headphones'
-const palette = { coral: 0xe69b93, rose: 0xd78da3, peach: 0xf4c3ad, gold: 0xd8b48d }
+const palette = { coral: 0xff91c1, rose: 0xee8aba, peach: 0xffd4e6, gold: 0xffffff }
+// Plástico premium opaco: as silhuetas continuam reconhecíveis em fundo claro.
 export const glass = (color = palette.coral, lite = false) => new THREE.MeshPhysicalMaterial({
-  color, metalness: 0.03, roughness: lite ? 0.29 : 0.17, transmission: lite ? 0.25 : 0.82,
-  thickness: 0.65, ior: 1.45, transparent: true, opacity: lite ? 0.94 : 1,
-  attenuationColor: new THREE.Color(color), attenuationDistance: 2.6,
-  envMapIntensity: 0.65, clearcoat: 0.35, clearcoatRoughness: 0.18,
-  side: THREE.DoubleSide, depthWrite: lite
+  color, metalness: 0.02, roughness: lite ? .38 : .3, transmission: 0,
+  clearcoat: .65, clearcoatRoughness: .24, envMapIntensity: .6
 })
 const matte = (color: number) => new THREE.MeshStandardMaterial({ color, roughness: 0.65, metalness: 0.08 })
 const add = (group: THREE.Group, geometry: THREE.BufferGeometry, material: THREE.Material, pos: [number,number,number] = [0,0,0], rot?: [number,number,number]) => {
@@ -31,7 +30,7 @@ const torus = (g:THREE.Group,r:number,t:number,m:THREE.Material,p:[number,number
 export function makeSport(kind: SportKind, lite: boolean): THREE.Group {
   const g = new THREE.Group()
   const pink=glass(palette.rose,lite), coral=glass(palette.coral,lite), peach=glass(palette.peach,lite)
-  const detail=matte(0xf6dfd8), dark=matte(0x805768)
+  const detail=matte(0xfff7fb), dark=matte(0x873758)
   if(kind==='dumbbell') {
     for(const offset of [-.28,.28]) {
       const d=new THREE.Group(); d.position.set(offset,offset*.35,offset*.45); d.rotation.z=offset*.65;g.add(d)
@@ -70,7 +69,7 @@ export function makeSport(kind: SportKind, lite: boolean): THREE.Group {
       for(let i=0;i<8;i++){const a=i*Math.PI/4;bar(g,[x,-.43,.015],[x+Math.cos(a)*.53,-.43+Math.sin(a)*.53,.015],.009,detail)}
     }
     const A:[number,number,number]=[-.32,-.37,.04],B:[number,number,number]=[.36,-.37,.04],C:[number,number,number]=[-.13,.32,.04],D:[number,number,number]=[.48,.37,.04]
-    for(const [a,b] of [[A,B],[A,C],[C,B],[B,D],[D,[.91,-.43,.04]],[A,[-.91,-.43,.04]]] as [number,number,number][][])bar(g,a,b,.058,coral)
+    for(const [a,b] of [[A,B],[A,C],[C,B],[C,D],[B,D],[D,[.91,-.43,.04]],[A,[-.91,-.43,.04]],[C,[-.91,-.43,.04]]] as [number,number,number][][])bar(g,a,b,.058,coral)
     bar(g,[-.13,.32,.04],[-.2,.53,.04],.045,dark)
     bar(g,[-.47,.55,.04],[.02,.55,.04],.065,detail)
     bar(g,[.48,.37,.04],[.51,.61,.04],.045,detail)
@@ -81,26 +80,71 @@ export function makeSport(kind: SportKind, lite: boolean): THREE.Group {
     for(let i=0;i<=24;i++){const a=Math.PI*i/24;curve.push([Math.cos(a)*.75,Math.sin(a)*.92-.16,0])}
     tube(g,curve,.095,coral)
     for(const x of [-.74,.74]){
-      add(g,new THREE.BoxGeometry(.24,.49,.36),pink,[x,-.35,0])
-      add(g,new THREE.BoxGeometry(.11,.35,.27),detail,[x*1.11,-.35,0])
+      const cup=add(g,new THREE.CapsuleGeometry(.18,.25,6,20),pink,[x,-.35,0]);cup.scale.z=.8
+      const cushion=add(g,new THREE.SphereGeometry(1,20,14),coral,[x,-.35,.15]);cushion.scale.set(.13,.245,.07)
+      const inset=add(g,new THREE.SphereGeometry(1,16,12),peach,[x,-.35,.205]);inset.scale.set(.065,.14,.025)
+      bar(g,[x,-.12,0],[x,-.34,0],.035,detail)
     }
   } else if(kind==='shoe') {
-    // Cabedal, biqueira, calcanhar, solado, lingueta e cadarços definidos.
-    const sole=new THREE.Shape()
-    sole.moveTo(-1.04,-.2);sole.bezierCurveTo(-.78,-.38,.75,-.4,1.18,-.12)
-    sole.lineTo(1.2,.05);sole.bezierCurveTo(.3,.16,-.65,.12,-1.04,.05);sole.closePath()
-    add(g,new THREE.ExtrudeGeometry(sole,{depth:.34,bevelEnabled:true,bevelSize:.045,bevelThickness:.05,bevelSegments:2,curveSegments:10}),detail,[0,-.46,-.18])
-    const upper=new THREE.Shape()
-    upper.moveTo(-1.0,-.2);upper.bezierCurveTo(-.94,.34,-.68,.61,-.37,.53)
-    upper.bezierCurveTo(-.08,.47,.1,.08,.4,.02);upper.bezierCurveTo(.83,-.04,1.06,-.11,1.1,-.2);upper.closePath()
-    add(g,new THREE.ExtrudeGeometry(upper,{depth:.34,bevelEnabled:true,bevelSize:.06,bevelThickness:.05,bevelSegments:2,curveSegments:12}),pink,[0,-.14,-.16])
-    add(g,new THREE.BoxGeometry(.52,.075,.37),coral,[-.33,.19,0],[0,0,-.25])
-    for(let i=0;i<5;i++){
-      const x=-.53+i*.15,y=.18-i*.048
-      bar(g,[x,y,.26],[x+.11,y-.035,.26],.022,detail)
+    const sole = new THREE.Shape()
+    sole.moveTo(-1.04,-.18); sole.bezierCurveTo(-1.15,-.38,.58,-.48,1.19,-.2)
+    sole.bezierCurveTo(1.35,-.06,1.18,.04,1.02,.07)
+    sole.bezierCurveTo(.24,.02,-.7,.15,-1.04,.02); sole.closePath()
+    const extrude = (shape: THREE.Shape, depth: number, bevel: number) => new THREE.ExtrudeGeometry(shape, { depth, bevelEnabled:true, bevelSize:bevel, bevelThickness:bevel, bevelSegments:3, curveSegments:20, steps:1 })
+    add(g,extrude(sole,.53,.065),detail,[0,-.36,-.265])
+    const outsole=add(g,extrude(sole,.52,.035),coral,[0,-.46,-.26]);outsole.scale.y=.72
+    const upper = new THREE.Shape()
+    upper.moveTo(-1.01,-.18); upper.bezierCurveTo(-1.02,.2,-.95,.48,-.73,.48)
+    upper.bezierCurveTo(-.59,.45,-.54,.35,-.33,.35)
+    upper.bezierCurveTo(-.08,.31,.06,.06,.43,.025)
+    upper.bezierCurveTo(.83,.0,1.17,-.06,1.17,-.2)
+    upper.bezierCurveTo(.8,-.33,-.59,-.34,-1.01,-.18);upper.closePath()
+    add(g,extrude(upper,.46,.12),pink,[0,-.08,-.23])
+    // Col de cheville, intérieur, languette et coutures contrastées.
+    const opening=add(g,new THREE.SphereGeometry(1,24,12),dark,[-.68,.35,.025]);opening.scale.set(.24,.06,.24);opening.rotation.z=.22
+    const collar=torus(g,.215,.055,coral,[-.68,.35,.025],[Math.PI/2,0,.2]);collar.scale.set(1,1.15,1)
+    const tongue=add(g,new THREE.CapsuleGeometry(.14,.29,5,12),peach,[-.3,.29,.03],[0,0,.92]);tongue.scale.z=.36
+    for(let i=0;i<5;i++) {
+      const x=-.47+i*.13, y=.30-i*.065
+      tube(g,[[x-.045,y-.03,.23],[x+.025,y+.06,.05],[x+.10,y-.03,-.18]],.018,detail)
+      add(g,new THREE.SphereGeometry(.025,7,5),dark,[x-.045,y-.03,.25])
     }
-    tube(g,[[-.9,.04,.2],[-.83,.31,.22],[-.65,.43,.2]],.035,coral)
+    tube(g,[[-.35,.3,.19],[-.54,.45,.24],[-.24,.4,.29],[-.35,.3,.19],[-.13,.36,.29],[-.18,.20,.30]],.016,detail)
+    // Painel lateral e costuras do cabedal, sem marca de terceiros.
+    const panel=new THREE.Shape();panel.moveTo(-.65,.01);panel.lineTo(-.43,.15);panel.lineTo(.30,-.10);panel.lineTo(.55,-.10);panel.lineTo(.07,-.23);panel.lineTo(-.65,-.12);panel.closePath()
+    add(g,extrude(panel,.012,.012),peach,[0,-.04,.36])
+    tube(g,[[-.98,-.08,.32],[-.83,.27,.32],[-.67,.38,.32]],.016,coral)
+    tube(g,[[.38,-.15,.36],[.65,-.1,.35],[1.0,-.18,.29]],.012,coral)
+    tube(g,[[-1.02,-.39,.36],[-.3,-.48,.38],[.65,-.43,.38],[1.15,-.31,.3]],.012,peach)
+    for(let i=0;i<12;i++) {
+      const tread=add(g,new THREE.BoxGeometry(.08,.035,.5),dark,[-.86+i*.17,-.62,.02]);tread.rotation.z=.06
+    }
+    for(let i=0;i<6;i++)for(let j=0;j<3;j++) {
+      add(g,new THREE.SphereGeometry(.009,4,3),coral,[.45+i*.075,-.04-j*.045,.33-j*.009])
+    }
+    // Alça de calcanhar.
+    tube(g,[[-1.02,.35,-.12],[-1.12,.58,-.12],[-.96,.55,-.12]],.028,detail)
   }
+  // Agrupa por material: detalhes continuam presentes com poucas draw calls.
+  g.updateMatrixWorld(true)
+  const batches=new Map<THREE.Material,THREE.BufferGeometry[]>()
+  const originals=new Set<THREE.BufferGeometry>()
+  g.traverse(child=>{
+    if(!(child instanceof THREE.Mesh))return
+    const material=child.material as THREE.Material
+    const geometry=child.geometry.index?child.geometry.toNonIndexed():child.geometry.clone()
+    geometry.applyMatrix4(child.matrixWorld)
+    const batch=batches.get(material)||[];batch.push(geometry);batches.set(material,batch)
+    originals.add(child.geometry)
+  })
+  g.clear()
+  for(const [material,geometries] of batches){
+    const merged=mergeGeometries(geometries,false)
+    if(merged)add(g,merged,material)
+    geometries.forEach(geometry=>geometry.dispose())
+  }
+  originals.forEach(geometry=>geometry.dispose())
+  for(const material of [pink,coral,peach,detail,dark])if(!batches.has(material))material.dispose()
   // Cada objeto possui proporções próprias, mas cabe em um espaço 3D uniforme.
   g.rotation.set(-.08,.23,.06)
   return g

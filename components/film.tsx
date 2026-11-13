@@ -2,6 +2,8 @@ import { ArrowDown, ArrowDownRight, ArrowUpRight, Wind, Flower2, CircleDot, Move
 import { FilmMotion } from './film-motion'
 import { SilkHero } from './hero/SilkHero'
 import { Sports3DOverlay } from './sports-3d/Sports3DOverlay'
+import { SportStage } from './sports-3d/SportStage'
+import { WellnessCarousel } from './wellness-carousel'
 
 const milestones = ['Descobrir', 'Aprender', 'Evoluir', 'Conectar', 'Conquistar']
 const experiences = [
@@ -60,12 +62,13 @@ export function Film() {
     <Sports3DOverlay />
     <SilkHero/>
     <section id="movimento" className="film-scene evolution" aria-labelledby="evolution-title">
-      <div className="film-stage evolution-stage">
-        <div className="wrap evolution-copy">
+      <div className="film-stage evolution-stage wrap">
+        <div className="evolution-copy">
           <p className="eyebrow"><span className="editorial-dot"/> O movimento</p>
           <h2 id="evolution-title">Movimento<br/> é <em>evolução.</em></h2>
           <ol className="milestones">{milestones.map(word=><li key={word}>{word}</li>)}</ol>
         </div>
+        <SportStage scene="movement"/>
         <svg className="track-map" viewBox="0 0 1200 630" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
           <path className="track-rail" d="M-65 590 C156 590 192 463 343 437 C552 404 708 516 847 411 C941 340 918 199 1090 181 C1150 175 1205 191 1272 157"/>
           <path className="track-rail" d="M-65 632 C156 632 192 505 343 479 C552 446 708 558 847 453 C941 382 918 241 1090 223 C1150 217 1205 233 1272 199"/>
@@ -76,7 +79,7 @@ export function Film() {
     </section>
     <section className="film-scene paths-scene" aria-labelledby="paths-title">
       <div className="film-stage paths-stage wrap">
-        <div className="paths-heading"><p className="eyebrow"><span className="editorial-dot"/> Experiências</p><h2 id="paths-title">Diferentes caminhos,<br/><em>infinitas possibilidades.</em></h2></div>
+        <div className="paths-top"><div className="paths-heading"><p className="eyebrow"><span className="editorial-dot"/> Experiências</p><h2 id="paths-title">Diferentes caminhos,<br/><em>infinitas possibilidades.</em></h2></div><SportStage scene="experiences"/></div>
         <div className="experience-window">
           <div className="experience-reel">{experiences.map(exp=><figure className="experience" key={exp.image}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -94,12 +97,7 @@ export function Film() {
     </section>
     <section className="breath-scene" aria-labelledby="breath-title">
       <div className="wrap breath-layout">
-        <div className="breath-symbol" aria-hidden="true">
-          <span className="breath-orbit breath-orbit-one"/>
-          <span className="breath-orbit breath-orbit-two"/>
-          <span className="breath-orbit breath-orbit-three"/>
-          <span className="breath-core"><Wind size={40} strokeWidth={0.9}/></span>
-        </div>
+        <SportStage scene="wellness"/>
         <div className="breath-content">
           <p className="eyebrow"><span className="editorial-dot"/> Um convite para sentir</p>
           <h2 id="breath-title">Antes de tudo, <em>respire.</em></h2>
@@ -135,7 +133,8 @@ export function Film() {
         </div>
         <div className="wellness-journey">
           <p className="wellness-overline">Cinco formas de se reconectar <span>01 — 05</span></p>
-          <ol className="wellness-steps">
+          <WellnessCarousel>
+          <ol className="wellness-steps" id="wellness-practices" tabIndex={0} aria-label="Práticas de bem-estar">
             {practices.map((practice, index) => {
               const Icon = practice.icon
               return <li className="wellness-step" key={practice.name}>
@@ -157,12 +156,13 @@ export function Film() {
               </li>
             })}
           </ol>
+          </WellnessCarousel>
           <a className="wellness-link" href="#eventos">Descubra experiências para você <ArrowDownRight size={19}/></a>
         </div>
       </div>
     </section>
     <section id="comunidade" className="film-scene relay-scene" aria-labelledby="relay-title">
-      <div className="film-stage relay-stage">
+      <div className="film-stage relay-stage wrap">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img className="relay-frame" src="/fotos/revezamento.webp" alt="" width="768" height="512" loading="lazy"/>
         <div className="relay-shade"/>
@@ -172,7 +172,8 @@ export function Film() {
           <path pathLength="1" d="M844 399C903 420 994 440 1081 407"/>
           <circle cx="1067" cy="592" r="5"/><circle cx="1169" cy="267" r="5"/><circle cx="1081" cy="407" r="5"/>
         </svg>
-        <div className="wrap relay-copy"><p className="eyebrow"><span className="editorial-dot"/> Conquistas compartilhadas</p><h2 id="relay-title">Quando uma mulher avança, <em>novos caminhos se abrem.</em></h2><a href="#eventos" className="hero-cta">Encontre sua próxima experiência <ArrowUpRight size={18}/></a></div>
+        <div className="relay-copy"><p className="eyebrow"><span className="editorial-dot"/> Conquistas compartilhadas</p><h2 id="relay-title">Quando uma mulher avança, <em>novos caminhos se abrem.</em></h2><a href="#eventos" className="hero-cta">Encontre sua próxima experiência <ArrowUpRight size={18}/></a></div>
+        <SportStage scene="community"/>
       </div>
     </section>
   </div>

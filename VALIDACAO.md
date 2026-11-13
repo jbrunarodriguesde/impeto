@@ -1,3 +1,7 @@
+# Validação histórica
+
+Este registro descreve a versão anterior. A validação da revisão Pink Studio está em [VALIDACAO-PINK-STUDIO.md](VALIDACAO-PINK-STUDIO.md). Medidas Lighthouse abaixo não representam esta revisão.
+
 # Validação e decisões técnicas
 
 ## Escopo
