@@ -47,22 +47,42 @@ export function FilmMotion() {
         words[0].classList.add('current')
         gsap.to('.experience-reel', { xPercent: -75, ease: 'none', scrollTrigger: drive('.paths-scene') })
         gsap.to('.reel-line span', { scaleX: 1, ease: 'none', scrollTrigger: drive('.paths-scene') })
-        // A nova história é percorrida naturalmente: cada prática ganha destaque ao entrar na tela.
-        // O conteúdo permanece legível mesmo sem JavaScript ou com movimento reduzido.
-        const wellnessImage = root.querySelector<HTMLImageElement>('.wellness-photo img')
-        if (wellnessImage) {
-          gsap.fromTo(wellnessImage, { scale: phone ? 1.06 : 1.12 }, {
-            scale: 1,
-            ease: 'none',
-            scrollTrigger: { trigger: '.wellness-chapter', start: 'top bottom', end: 'bottom top', scrub: true }
-          })
+        // A pausa desacelera a narrativa, com revelação progressiva de texto.
+        gsap.from('.breath-content > *', {
+          y: phone ? 18 : 32,
+          opacity: 0,
+          stagger: .12,
+          duration: .8,
+          ease: 'power2.out',
+          scrollTrigger: { trigger: '.breath-scene', start: 'top 72%', toggleActions: 'play none none reverse' }
+        })
+        gsap.fromTo('.breath-symbol', { scale: .94 }, {
+          scale: 1.035,
+          ease: 'none',
+          scrollTrigger: { trigger: '.breath-scene', start: 'top bottom', end: 'bottom top', scrub: true }
+        })
+
+        // Troca de fotografias sincronizada ao conteúdo, sem ocultar nada quando JS está desligado.
+        const wellnessSteps = Array.from(root.querySelectorAll<HTMLElement>('.wellness-step'))
+        const wellnessFrames = Array.from(root.querySelectorAll<HTMLElement>('.wellness-gallery-frame'))
+        const currentFrame = root.querySelector<HTMLElement>('.wellness-current-frame')
+        const progressBar = root.querySelector<HTMLElement>('.wellness-progress-track i')
+        const selectScene = (active: number) => {
+          wellnessFrames.forEach((frame, index) => frame.classList.toggle('is-visible', index === active))
+          wellnessSteps.forEach((step, index) => step.classList.toggle('is-active', index === active))
+          if (currentFrame) currentFrame.textContent = String(active + 1).padStart(2, '0')
+          if (progressBar) progressBar.style.transform = `scaleX(${(active + 1) / wellnessSteps.length})`
         }
-        for (const step of root.querySelectorAll<HTMLElement>('.wellness-step')) {
-          ScrollTrigger.create({
-            trigger: step,
-            start: 'top 76%',
-            end: 'bottom 28%',
-            toggleClass: { targets: step, className: 'is-active' }
+        if (wellnessSteps.length && wellnessFrames.length === wellnessSteps.length) {
+          selectScene(0)
+          wellnessSteps.forEach((step, index) => {
+            ScrollTrigger.create({
+              trigger: step,
+              start: 'top 68%',
+              end: 'bottom 30%',
+              onEnter: () => selectScene(index),
+              onEnterBack: () => selectScene(index)
+            })
           })
         }
         const relay = gsap.timeline({ defaults: { ease: 'none' }, scrollTrigger: drive('.relay-scene') })
@@ -72,6 +92,10 @@ export function FilmMotion() {
         return () => {
           path.style.removeProperty('stroke-dashoffset')
           words.forEach(word => word.classList.remove('current'))
+          wellnessSteps.forEach(step => step.classList.remove('is-active'))
+          wellnessFrames.forEach((frame, index) => frame.classList.toggle('is-visible', index === 0))
+          if (currentFrame) currentFrame.textContent = '01'
+          if (progressBar) progressBar.style.removeProperty('transform')
         }
       }, root)
       const observer = new ResizeObserver(() => ScrollTrigger.refresh())
