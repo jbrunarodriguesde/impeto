@@ -3,13 +3,13 @@ import * as THREE from 'three'
 export type SportKind = 'shoe' | 'bottle' | 'dumbbell' | 'pilates' | 'mat' | 'bike' | 'volleyball' | 'headphones'
 const palette = { coral: 0xe69b93, rose: 0xd78da3, peach: 0xf4c3ad, gold: 0xd8b48d }
 export const glass = (color = palette.coral, lite = false) => new THREE.MeshPhysicalMaterial({
-  color, metalness: 0.03, roughness: lite ? 0.29 : 0.17, transmission: lite ? 0.25 : 0.82,
-  thickness: 0.65, ior: 1.45, transparent: true, opacity: lite ? 0.94 : 1,
+  color, metalness: 0.03, roughness: lite ? 0.46 : 0.34, transmission: lite ? 0.08 : 0.24,
+  thickness: 0.45, ior: 1.42, transparent: true, opacity: lite ? 0.96 : 1,
   attenuationColor: new THREE.Color(color), attenuationDistance: 2.6,
-  envMapIntensity: 0.65, clearcoat: 0.35, clearcoatRoughness: 0.18,
+  envMapIntensity: 0.45, clearcoat: 0.18, clearcoatRoughness: 0.32,
   side: THREE.DoubleSide, depthWrite: lite
 })
-const matte = (color: number) => new THREE.MeshStandardMaterial({ color, roughness: 0.65, metalness: 0.08 })
+const matte = (color: number) => new THREE.MeshStandardMaterial({ color, roughness: 0.76, metalness: 0.02 })
 const add = (group: THREE.Group, geometry: THREE.BufferGeometry, material: THREE.Material, pos: [number,number,number] = [0,0,0], rot?: [number,number,number]) => {
   const mesh = new THREE.Mesh(geometry, material)
   mesh.position.set(...pos)
