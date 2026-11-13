@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import type * as ThreeTypes from 'three'
 
 /** Um único WebGLRenderer compartilhado por todas as seções.
  * Elementos decorativos não capturam eventos, não afetam o layout nem o SEO. */
@@ -44,7 +45,7 @@ export function Sports3DOverlay() {
         type Kind = import('./models').SportKind
         type Placement = { section: string; kind: Kind; x: number; y: number; size: number; phase: number }
         const placements: Placement[] = [
-          {section:'.silk-hero-shell',kind:'shoe',x:.81,y:.48,size:1.15,phase:0},
+          {section:'.silk-hero-shell',kind:'shoe',x:.89,y:.43,size:1.05,phase:0},
           {section:'.silk-hero-shell',kind:'bottle',x:.95,y:.72,size:.52,phase:2.1},
           {section:'.silk-hero-shell',kind:'dumbbell',x:.97,y:.2,size:.42,phase:3.5},
           {section:'#movimento',kind:'dumbbell',x:.87,y:.6,size:.86,phase:1.2},
@@ -146,8 +147,8 @@ export function Sports3DOverlay() {
           document.removeEventListener('pointerleave',onLeave)
           document.removeEventListener('visibilitychange',onVisibility)
           window.removeEventListener('scroll',onScroll)
-          const geometries=new Set<THREE.BufferGeometry>()
-          const materials=new Set<THREE.Material>()
+          const geometries=new Set<ThreeTypes.BufferGeometry>()
+          const materials=new Set<ThreeTypes.Material>()
           for(const {root} of objects)root.traverse(child=>{
             if(child instanceof THREE.Mesh){
               geometries.add(child.geometry)
