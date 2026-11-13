@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowDownRight, ArrowUpRight } from 'lucide-react'
+import { ArrowDown, ArrowDownRight, ArrowUpRight, Wind, Flower2, CircleDot, MoveUpRight, Dumbbell, Sparkles } from 'lucide-react'
 import { FilmMotion } from './film-motion'
 
 const milestones = ['Descobrir', 'Aprender', 'Evoluir', 'Conectar', 'Conquistar']
@@ -13,27 +13,42 @@ const practices = [
   {
     name: 'Meditação',
     headline: 'A coragem de pausar.',
-    description: 'Respirar, observar e voltar para o presente. Às vezes, o primeiro passo é desacelerar.'
+    description: 'Respirar, observar e voltar para o presente. Às vezes, o primeiro passo é desacelerar.',
+    image: 'bem-estar',
+    icon: Wind,
+    feeling: 'Respire fundo'
   },
   {
     name: 'Yoga',
     headline: 'Presença em movimento.',
-    description: 'Entre equilíbrio e respiração, descubra um jeito de se mover que respeita o seu tempo.'
+    description: 'Entre equilíbrio e respiração, descubra um jeito de se mover que respeita o seu tempo.',
+    image: 'encontro',
+    icon: Flower2,
+    feeling: 'Encontre equilíbrio'
   },
   {
     name: 'Pilates',
     headline: 'A força do seu centro.',
-    description: 'Controle, postura e consciência corporal em pequenos gestos que fazem diferença.'
+    description: 'Controle, postura e consciência corporal em pequenos gestos que fazem diferença.',
+    image: 'posicao',
+    icon: CircleDot,
+    feeling: 'Sinta seu centro'
   },
   {
     name: 'Alongamento',
     headline: 'Mais espaço para ser.',
-    description: 'Mobilidade, leveza e liberdade para explorar novas possibilidades com o próprio corpo.'
+    description: 'Mobilidade, leveza e liberdade para explorar novas possibilidades com o próprio corpo.',
+    image: 'cadarco',
+    icon: MoveUpRight,
+    feeling: 'Abra novos caminhos'
   },
   {
     name: 'Musculação',
     headline: 'Sua potência é sua.',
-    description: 'Construa força, autonomia e confiança, sem comparações ou padrões a seguir.'
+    description: 'Construa força, autonomia e confiança, sem comparações ou padrões a seguir.',
+    image: 'largada',
+    icon: Dumbbell,
+    feeling: 'Descubra sua força'
   }
 ]
 
@@ -106,6 +121,23 @@ export function Film() {
         </div>
       </div>
     </section>
+    <section className="breath-scene" aria-labelledby="breath-title">
+      <div className="wrap breath-layout">
+        <div className="breath-symbol" aria-hidden="true">
+          <span className="breath-orbit breath-orbit-one"/>
+          <span className="breath-orbit breath-orbit-two"/>
+          <span className="breath-orbit breath-orbit-three"/>
+          <span className="breath-core"><Wind size={40} strokeWidth={0.9}/></span>
+        </div>
+        <div className="breath-content">
+          <p className="eyebrow"><span className="editorial-dot"/> Um convite para sentir</p>
+          <h2 id="breath-title">Antes de tudo, <em>respire.</em></h2>
+          <p>Não é sobre fazer mais. É sobre descobrir o que faz bem, no seu ritmo, do seu jeito.</p>
+          <a href="#bem-estar" className="breath-link">Encontre o seu movimento <ArrowDownRight size={18}/></a>
+        </div>
+        <span className="breath-watermark" aria-hidden="true">pausa</span>
+      </div>
+    </section>
     <section id="bem-estar" className="wellness-chapter" aria-labelledby="wellness-title">
       <div className="wrap wellness-layout">
         <div className="wellness-intro">
@@ -113,23 +145,46 @@ export function Film() {
           <h2 id="wellness-title">Nem todo avanço <em>precisa ser rápido.</em></h2>
           <p className="wellness-lead">Há dias de pausa. Há dias de potência. E todos eles fazem parte de uma jornada que é só sua.</p>
           <figure className="wellness-photo">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/fotos/bem-estar.webp" alt="" loading="lazy" width="768" height="512"/>
-            <figcaption>Seu corpo. Seu ritmo. Seu movimento.</figcaption>
+            <div className="wellness-gallery" aria-hidden="true">
+              {practices.map((practice, index) =>
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img key={practice.name} className={'wellness-gallery-frame' + (index === 0 ? ' is-visible' : '')}
+                  src={'/fotos/' + practice.image + '.webp'} alt="" loading="lazy" width="768" height="512"/>)}
+            </div>
+            <div className="wellness-photo-chrome">
+              <span className="wellness-photo-label"><Sparkles size={15} strokeWidth={1.4}/> SENSAÇÕES EM MOVIMENTO</span>
+              <figcaption>Seu corpo. Seu ritmo. <em>Seu movimento.</em></figcaption>
+              <div className="wellness-photo-progress" aria-hidden="true">
+                <span className="wellness-current-frame">01</span>
+                <div className="wellness-progress-track"><i/></div>
+                <span>05</span>
+              </div>
+            </div>
           </figure>
         </div>
         <div className="wellness-journey">
           <p className="wellness-overline">Cinco formas de se reconectar <span>01 — 05</span></p>
           <ol className="wellness-steps">
-            {practices.map((practice, index) => <li className="wellness-step" key={practice.name}>
-              <span className="wellness-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-              <div>
-                <p className="wellness-name">{practice.name}</p>
-                <h3>{practice.headline}</h3>
-                <p className="wellness-description">{practice.description}</p>
-              </div>
-              <ArrowUpRight size={18} strokeWidth={1.3} aria-hidden="true"/>
-            </li>)}
+            {practices.map((practice, index) => {
+              const Icon = practice.icon
+              return <li className="wellness-step" key={practice.name}>
+                <span className="wellness-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                <div className="wellness-step-content">
+                  <div className="wellness-step-topline">
+                    <p className="wellness-name">{practice.name}</p>
+                    <Icon className="wellness-practice-icon" size={24} strokeWidth={1.25} aria-hidden="true"/>
+                  </div>
+                  <h3>{practice.headline}</h3>
+                  <p className="wellness-description">{practice.description}</p>
+                  <div className="wellness-step-thumb" aria-hidden="true">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={'/fotos/' + practice.image + '.webp'} alt="" loading="lazy" width="768" height="512"/>
+                    <span>{practice.feeling}</span>
+                  </div>
+                  <p className="wellness-feeling">{practice.feeling}<ArrowUpRight size={14} strokeWidth={1.5}/></p>
+                </div>
+              </li>
+            })}
           </ol>
           <a className="wellness-link" href="#eventos">Descubra experiências para você <ArrowDownRight size={19}/></a>
         </div>
