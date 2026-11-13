@@ -24,14 +24,7 @@ export function FilmMotion() {
         if (phone) {
           // No celular, a narrativa flui verticalmente. Evitar cenas pinadas que
           // deixam grandes espaços vazios ao variar a altura do navegador.
-          gsap.from('.hero-copy > *', {
-            opacity: 0,
-            y: 14,
-            duration: .65,
-            stagger: .08,
-            ease: 'power2.out',
-            clearProps: 'opacity,transform'
-          })
+
 
           for (const item of root.querySelectorAll<HTMLElement>(
             '.evolution-copy, .paths-heading, .experience, .breath-content, .wellness-intro, .wellness-step, .relay-copy'
@@ -79,13 +72,7 @@ export function FilmMotion() {
         for (const frame of root.querySelectorAll<HTMLImageElement>('.alternate')) {
           frame.src = frame.dataset.src!
         }
-        const hero = gsap.timeline({ defaults: { ease: 'none' }, scrollTrigger: drive('.hero-scene') })
-        hero.fromTo('.hero-cover', { scale: 1 }, { scale: phone ? 1.14 : 1.24, transformOrigin: '80% 88%', duration: 0.36 }, 0)
-        hero.fromTo('.frame-cadarco', { clipPath: 'inset(0 0 0 100%)', scale: 1.12 }, { clipPath: 'inset(0 0 0 0%)', scale: 1, duration: 0.23 }, 0.16)
-        hero.fromTo('.frame-posicao', { clipPath: 'inset(100% 0 0 0)', scale: 1.12 }, { clipPath: 'inset(0% 0 0 0)', scale: 1, duration: 0.23 }, 0.41)
-        hero.fromTo('.frame-largada', { clipPath: 'inset(0 100% 0 0)', xPercent: -7, scale: 1.13 }, { clipPath: 'inset(0 0% 0 0)', xPercent: 0, scale: 1, duration: 0.29 }, 0.68)
-        hero.to('.hero-lane path', { strokeDashoffset: 0, duration: 0.19 }, 0.81)
-        hero.to('.chapter-indicator i', { scaleX: 1, duration: 1 }, 0)
+        // A nova SilkHero controla sua animação 3D independentemente.
         const path = root.querySelector<SVGPathElement>('.track-progress')!
         const dot = root.querySelector<SVGCircleElement>('.track-dot')!
         const words = Array.from(root.querySelectorAll<HTMLElement>('.milestones li'))
