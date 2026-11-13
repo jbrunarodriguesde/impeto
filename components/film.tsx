@@ -9,6 +9,34 @@ const experiences = [
   { image: 'bem-estar', pair: 'encontro', title: 'Abra espaço para você.', caption: 'Bem-estar e networking' }
 ]
 
+const practices = [
+  {
+    name: 'Meditação',
+    headline: 'A coragem de pausar.',
+    description: 'Respirar, observar e voltar para o presente. Às vezes, o primeiro passo é desacelerar.'
+  },
+  {
+    name: 'Yoga',
+    headline: 'Presença em movimento.',
+    description: 'Entre equilíbrio e respiração, descubra um jeito de se mover que respeita o seu tempo.'
+  },
+  {
+    name: 'Pilates',
+    headline: 'A força do seu centro.',
+    description: 'Controle, postura e consciência corporal em pequenos gestos que fazem diferença.'
+  },
+  {
+    name: 'Alongamento',
+    headline: 'Mais espaço para ser.',
+    description: 'Mobilidade, leveza e liberdade para explorar novas possibilidades com o próprio corpo.'
+  },
+  {
+    name: 'Musculação',
+    headline: 'Sua potência é sua.',
+    description: 'Construa força, autonomia e confiança, sem comparações ou padrões a seguir.'
+  }
+]
+
 export function Film() {
   return <div id="filme">
     <FilmMotion />
@@ -40,7 +68,7 @@ export function Film() {
         </div>
         <div className="hero-bottom"><div className="wrap hero-bottom-inner">
           <a href="#movimento" className="scroll-link"><span className="round-arrow"><ArrowDown size={15}/></span> <span>Role para começar</span></a>
-          <div className="chapter-indicator" aria-hidden="true"><span>01</span><div><i/></div><span>04</span></div>
+          <div className="chapter-indicator" aria-hidden="true"><span>01</span><div><i/></div><span>05</span></div>
           <a href="#eventos" className="jump-link">Ir direto aos eventos <ArrowDownRight size={15}/></a>
         </div></div>
       </div>
@@ -75,6 +103,35 @@ export function Film() {
             <figcaption><small>{exp.caption}</small><strong>{exp.title}</strong></figcaption>
           </figure>)}</div>
           <div className="reel-line" aria-hidden="true"><span/></div>
+        </div>
+      </div>
+    </section>
+    <section id="bem-estar" className="wellness-chapter" aria-labelledby="wellness-title">
+      <div className="wrap wellness-layout">
+        <div className="wellness-intro">
+          <p className="eyebrow"><span className="editorial-dot"/> Corpo &amp; mente</p>
+          <h2 id="wellness-title">Nem todo avanço <em>precisa ser rápido.</em></h2>
+          <p className="wellness-lead">Há dias de pausa. Há dias de potência. E todos eles fazem parte de uma jornada que é só sua.</p>
+          <figure className="wellness-photo">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/fotos/bem-estar.webp" alt="" loading="lazy" width="768" height="512"/>
+            <figcaption>Seu corpo. Seu ritmo. Seu movimento.</figcaption>
+          </figure>
+        </div>
+        <div className="wellness-journey">
+          <p className="wellness-overline">Cinco formas de se reconectar <span>01 — 05</span></p>
+          <ol className="wellness-steps">
+            {practices.map((practice, index) => <li className="wellness-step" key={practice.name}>
+              <span className="wellness-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+              <div>
+                <p className="wellness-name">{practice.name}</p>
+                <h3>{practice.headline}</h3>
+                <p className="wellness-description">{practice.description}</p>
+              </div>
+              <ArrowUpRight size={18} strokeWidth={1.3} aria-hidden="true"/>
+            </li>)}
+          </ol>
+          <a className="wellness-link" href="#eventos">Descubra experiências para você <ArrowDownRight size={19}/></a>
         </div>
       </div>
     </section>
