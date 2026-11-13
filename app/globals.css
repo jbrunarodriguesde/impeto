@@ -471,3 +471,251 @@ body:has(.hero-stage) .masthead { position: absolute; inset: 0 0 auto; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
 }
+
+
+/* Experiência sensorial Ímpeto — uma pausa antes do próximo movimento. */
+html { scroll-behavior: smooth; }
+.breath-scene {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-block: 1px solid #e8d6da;
+  background: #f4ece8;
+  color: #382835;
+}
+.breath-scene::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(ellipse at 24% 50%, #e1cbd1aa 0%, transparent 48%),
+              radial-gradient(ellipse at 90% 10%, #fdf8f3 0%, transparent 48%);
+}
+.breath-layout {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, .82fr) minmax(0, 1fr);
+  gap: clamp(30px, 8vw, 160px);
+  align-items: center;
+  min-height: min(86svh, 780px);
+  padding-block: clamp(90px, 11vw, 165px);
+}
+.breath-symbol {
+  position: relative;
+  width: min(100%, 460px);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  justify-self: center;
+}
+.breath-orbit {
+  position: absolute;
+  inset: 8%;
+  border: 1px solid #ab809480;
+  border-radius: 50%;
+  transform-origin: center;
+  animation: impeto-breathe 7.5s ease-in-out infinite alternate;
+}
+.breath-orbit-two { inset: 18%; animation-delay: -2.5s; border-color: #ac7f9380; }
+.breath-orbit-three { inset: 28%; animation-delay: -5s; border-color: #ac7f93b0; }
+.breath-core {
+  width: 26%;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #503649;
+  color: #f2dae2;
+  box-shadow: 0 0 80px #b88b9a54;
+}
+.breath-core svg { width: 37%; height: auto; }
+.breath-content { position: relative; z-index: 1; }
+.breath-content .eyebrow { color: #745365; }
+.breath-content h2 {
+  max-width: 740px;
+  margin-top: 20px;
+  font: 400 clamp(4.2rem, 7.8vw, 9rem)/.88 var(--serif);
+  letter-spacing: -.04em;
+}
+.breath-content h2 em { display: block; color: #8d5f75; }
+.breath-content > p:not(.eyebrow) {
+  max-width: 430px;
+  margin-top: 24px;
+  color: #66525d;
+  font-size: clamp(.98rem, 1.3vw, 1.1rem);
+  line-height: 1.68;
+}
+.breath-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 13px;
+  min-height: 48px;
+  margin-top: 24px;
+  border-bottom: 1px solid #845e70;
+  color: #503547;
+  font-size: .85rem;
+  font-weight: 700;
+  transition: gap .3s ease;
+}
+.breath-link:hover { gap: 19px; }
+.breath-watermark {
+  position: absolute;
+  right: -3%;
+  bottom: -9%;
+  z-index: -1;
+  user-select: none;
+  pointer-events: none;
+  color: #74536512;
+  font: italic 400 clamp(10rem, 27vw, 30rem)/1 var(--serif);
+  letter-spacing: -.045em;
+}
+@keyframes impeto-breathe {
+  from { transform: scale(.88); opacity: .55; }
+  to { transform: scale(1.09); opacity: 1; }
+}
+
+/* Fotografia que muda de atmosfera enquanto a história avança. */
+.wellness-gallery {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #473444;
+}
+.wellness-photo .wellness-gallery-frame {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.065);
+  transition: opacity .75s ease, transform 1.6s cubic-bezier(.2, .65, .2, 1);
+}
+.wellness-photo .wellness-gallery-frame.is-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+.wellness-photo::after { background: linear-gradient(0deg, #211620d6, transparent 58%); }
+.wellness-photo-chrome { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.wellness-photo-label {
+  position: absolute;
+  top: 19px;
+  left: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: .61rem;
+  font-weight: 700;
+  letter-spacing: .16em;
+  color: #fff4f1;
+}
+.wellness-photo .wellness-photo-chrome figcaption {
+  bottom: 48px;
+  font-size: clamp(2rem, 3vw, 2.8rem);
+  line-height: .95;
+}
+.wellness-photo .wellness-photo-chrome figcaption em {
+  display: block;
+  color: #efd0d8;
+}
+.wellness-photo-progress {
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: .62rem;
+  font-weight: 700;
+  color: #f7e1e8;
+  font-variant-numeric: tabular-nums;
+}
+.wellness-progress-track {
+  height: 1px;
+  flex: 1;
+  background: #f4dce455;
+}
+.wellness-progress-track i {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #f9dae2;
+  transform: scaleX(.2);
+  transform-origin: left;
+  transition: transform .7s ease;
+}
+.wellness-step { grid-template-columns: 36px minmax(0, 1fr); }
+.wellness-step-content { min-width: 0; }
+.wellness-step-topline { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.wellness-practice-icon {
+  color: #f2cfda;
+  flex: none;
+  transition: transform .35s ease, color .35s ease;
+}
+.wellness-step:hover .wellness-practice-icon,
+.wellness-step.is-active .wellness-practice-icon { transform: translateY(-3px) rotate(-6deg); color: #fff5f6; }
+.wellness-step:hover, .wellness-step.is-active { background: #ffffff10; border-color: #efd0d9; }
+.wellness-feeling {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 15px;
+  color: #f1c5d1;
+  font: italic 400 1.25rem/1.15 var(--serif);
+}
+.wellness-feeling svg { transition: transform .3s ease; }
+.wellness-step:hover .wellness-feeling svg,
+.wellness-step.is-active .wellness-feeling svg { transform: translate(3px, -2px); }
+.wellness-step-thumb { display: none; }
+.wellness-chapter::before {
+  content: 'SENTIR';
+  position: absolute;
+  right: -2vw;
+  top: 15px;
+  pointer-events: none;
+  user-select: none;
+  font: italic 400 clamp(8rem, 19vw, 22rem)/1 var(--serif);
+  letter-spacing: -.04em;
+  color: #fff5ef05;
+}
+
+/* Em aparelhos pequenos, a própria lista vira uma narrativa fotográfica. */
+@media (max-width: 880px) {
+  .breath-layout { min-height: 0; grid-template-columns: minmax(0, 1fr); gap: 10px; padding-block: 76px 88px; text-align: center; }
+  .breath-symbol { order: 2; width: min(70%, 320px); margin-top: 34px; }
+  .breath-content { order: 1; display: grid; justify-items: center; }
+  .breath-content h2 { font-size: clamp(4rem, 10vw, 6.7rem); }
+  .breath-content > p:not(.eyebrow) { max-width: 480px; }
+  .wellness-photo { height: 390px; }
+  .wellness-steps { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; border: 0; }
+  .wellness-step { border: 1px solid #eac9d04a; padding: 22px; }
+  .wellness-step-thumb { display: block; margin-top: 18px; position: relative; overflow: hidden; aspect-ratio: 1.65; background: #634455; }
+  .wellness-step-thumb img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .wellness-step-thumb::after { content: ''; position: absolute; inset: 35% 0 0; background: linear-gradient(0deg, #221822aa, transparent); }
+  .wellness-step-thumb span { position: absolute; z-index: 1; bottom: 14px; left: 15px; right: 15px; color: white; font: italic 400 1.4rem/1 var(--serif); }
+}
+@media (max-width: 680px) {
+  .breath-layout { padding-block: 66px 78px; }
+  .breath-content h2 { font-size: clamp(3.35rem, 13.3vw, 5rem); }
+  .breath-content > p:not(.eyebrow) { font-size: .96rem; margin-top: 19px; }
+  .breath-symbol { width: min(67vw, 255px); margin-top: 20px; }
+  .breath-watermark { right: -6%; bottom: 7%; font-size: 10rem; }
+  .wellness-photo { height: clamp(240px, 67vw, 350px); }
+  .wellness-photo .wellness-photo-chrome figcaption { font-size: 1.95rem; bottom: 45px; }
+  .wellness-photo-label { font-size: .55rem; top: 15px; left: 16px; }
+  .wellness-photo-progress { left: 16px; right: 16px; bottom: 15px; }
+  .wellness-steps { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .wellness-step { border-inline: 0; border-bottom: 0; padding: 23px 2px 25px; }
+  .wellness-step:last-child { border-bottom: 1px solid #eac9d04a; }
+  .wellness-step-thumb { aspect-ratio: 1.8; margin-top: 19px; }
+  .wellness-step-thumb span { font-size: 1.65rem; }
+  .wellness-chapter::before { font-size: 8rem; top: 6px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .breath-orbit { animation: none; }
+  .wellness-photo .wellness-gallery-frame { transition: none; transform: none; }
+  .wellness-step, .wellness-practice-icon, .wellness-feeling svg { transition: none; }
+}
