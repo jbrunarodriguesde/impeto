@@ -807,3 +807,23 @@ html { scroll-behavior: smooth; }
   #filme .film-stage { position: relative; }
   #filme .film-scene, #filme .paths-scene { height: auto; min-height: 0; }
 }
+
+/* Galeria fixa durante a leitura das cinco práticas.
+   A coluna acompanha toda a altura do texto; somente a fotografia fica sticky.
+   Assim a imagem não desaparece antes de chegar à musculação. */
+@media (min-width: 881px) {
+  .wellness-layout {
+    align-items: stretch;
+  }
+  .wellness-intro {
+    position: relative;
+    top: auto;
+    align-self: stretch;
+    min-height: 100%;
+  }
+  .wellness-photo {
+    position: sticky;
+    top: clamp(16px, 5vh, 54px);
+    z-index: 2;
+  }
+}
