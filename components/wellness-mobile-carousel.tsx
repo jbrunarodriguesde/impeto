@@ -83,12 +83,12 @@ export function WellnessMobileCarousel({ practices }: { practices: Practice[] })
     </div>
     <div className={styles.controls}>
       <button ref={previous} type="button" aria-label="Anterior" aria-controls={regionId}
-        disabled={active === 0 || busy} onClick={() => navigate(-1)}>
+        disabled={active === 0} aria-disabled={busy || active === 0} onClick={() => navigate(-1)}>
         <ArrowLeft size={19} aria-hidden="true"/><span>Anterior</span>
       </button>
       <span className={styles.counter} aria-hidden="true">{String(active + 1).padStart(2, '0')} <span>/</span> {String(practices.length).padStart(2, '0')}</span>
       <button ref={next} type="button" aria-label="Próximo" aria-controls={regionId}
-        disabled={active === practices.length - 1 || busy} onClick={() => navigate(1)}>
+        disabled={active === practices.length - 1} aria-disabled={busy || active === practices.length - 1} onClick={() => navigate(1)}>
         <span>Próximo</span><ArrowRight size={19} aria-hidden="true"/>
       </button>
     </div>
