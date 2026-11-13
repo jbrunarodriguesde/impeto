@@ -33,7 +33,7 @@ input, select, textarea { min-width: 0; }
 .editorial-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; flex: none; background: #a96983; }
 
 .masthead { position: relative; z-index: 5; color: var(--paper); background: var(--dark); border-bottom: 1px solid #ffffff21; }
-body:has(.hero-stage) .masthead { position: absolute; inset: 0 0 auto; }
+body:has(.hero-stage, .silk-hero-shell) .masthead { position: absolute; inset: 0 0 auto; }
 .masthead-inner { min-height: 77px; padding-inline: var(--gutter); max-width: 1580px; margin-inline: auto; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 28px; }
 .brand { color: inherit; display: inline-flex; align-items: center; gap: 6px; justify-self: start; font: italic 2.6rem/.9 var(--serif); letter-spacing: -.045em; width: fit-content; }
 .brand svg { margin-right: 3px; color: var(--rose); }
