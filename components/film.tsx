@@ -1,5 +1,6 @@
 import { ArrowDown, ArrowDownRight, ArrowUpRight, Wind, Flower2, CircleDot, MoveUpRight, Dumbbell, Sparkles } from 'lucide-react'
 import { FilmMotion } from './film-motion'
+import { SilkHero } from './hero/SilkHero'
 
 const milestones = ['Descobrir', 'Aprender', 'Evoluir', 'Conectar', 'Conquistar']
 const experiences = [
@@ -55,39 +56,7 @@ const practices = [
 export function Film() {
   return <div id="filme">
     <FilmMotion />
-    <section className="film-scene hero-scene" aria-labelledby="hero-title">
-      <div className="film-stage hero-stage">
-        <div className="hero-frames" aria-hidden="true">
-          <picture className="hero-frame hero-cover">
-            <source media="(max-width: 680px)" srcSet="/fotos/capa-mobile.webp" />
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/fotos/capa.webp" alt="" width="1536" height="1024" fetchPriority="high" />
-          </picture>
-          {['cadarco', 'posicao', 'largada'].map(frame =>
-            /* eslint-disable-next-line @next/next/no-img-element */
-            <img className={'hero-frame alternate frame-' + frame} key={frame} data-src={'/fotos/' + frame + '.webp'} alt="" width="768" height="512" />
-          )}
-        </div>
-        <div className="hero-shade" aria-hidden="true" />
-        <svg className="hero-lane" viewBox="0 0 1200 630" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-          <path pathLength="1" d="M1200 472C925 471 943 535 667 535C395 535 288 530 -65 590"/>
-        </svg>
-        <div className="wrap hero-body">
-          <div className="hero-copy">
-            <div className="eyebrow hero-kicker"><span/> Esporte, desenvolvimento e comunidade</div>
-            <h1 id="hero-title">O seu próximo<br className="wide-break"/> movimento<br/><em>transforma tudo.</em></h1>
-            <p>Corra, aprenda e encontre mulheres que também querem dar o próximo passo.</p>
-            <a className="hero-cta" href="#eventos">Explore os eventos <ArrowUpRight size={18}/></a>
-          </div>
-          <div className="hero-side" aria-hidden="true"><span/> O PRIMEIRO PASSO</div>
-        </div>
-        <div className="hero-bottom"><div className="wrap hero-bottom-inner">
-          <a href="#movimento" className="scroll-link"><span className="round-arrow"><ArrowDown size={15}/></span> <span>Role para começar</span></a>
-          <div className="chapter-indicator" aria-hidden="true"><span>01</span><div><i/></div><span>05</span></div>
-          <a href="#eventos" className="jump-link">Ir direto aos eventos <ArrowDownRight size={15}/></a>
-        </div></div>
-      </div>
-    </section>
+    <SilkHero/>
     <section id="movimento" className="film-scene evolution" aria-labelledby="evolution-title">
       <div className="film-stage evolution-stage">
         <div className="wrap evolution-copy">
