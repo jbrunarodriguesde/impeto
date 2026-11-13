@@ -18,7 +18,7 @@ export function Sports3DOverlay() {
     let cleanup: (() => void) | undefined
     const start = async () => {
       try {
-        const [{ default: THREE }, { makeSport }] = await Promise.all([
+        const [THREE, { makeSport }] = await Promise.all([
           import('three'), import('./models')
         ])
         if (cancelled) return
